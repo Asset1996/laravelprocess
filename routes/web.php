@@ -22,11 +22,7 @@ Route::get('/test', function () {
     return 'hello';
 });
 
-Route::post('/pull/{key}', function ($key) {
-    // $originalKey = env('GITHUB_PULL_SECRET', 'default');
-    if($key == 'shellpullkeysupersecret12345') {
-        shell_exec('git pull');
-        return response('Success pulled', 200)->header('Content-Type', 'text/plain');
-    }
-    return response('The secret key is invalid', 400)->header('Content-Type', 'text/plain');
+Route::post('/pull', function ($key) {
+    shell_exec('git pull');
+    return response('Success pulled', 200)->header('Content-Type', 'text/plain');
 });
