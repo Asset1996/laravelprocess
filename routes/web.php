@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function () {
+    return 'hello';
+});
+
 Route::post('/pull/{key}', function ($key) {
     // $originalKey = env('GITHUB_PULL_SECRET', 'default');
     if($key == 'shellpullkeysupersecret12345') {
