@@ -22,7 +22,7 @@ Route::get('/test', function () {
     return 'hello';
 });
 
-Route::post('/pull', function ($key) {
+Route::post('/pull', function () {
     shell_exec('git pull');
     return response('Success pulled', 200)->header('Content-Type', 'text/plain');
 });
