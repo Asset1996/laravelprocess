@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes sssss
+| Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -12,17 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//test23456
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return 'hello';
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::post('/pull', function () {
-    shell_exec('git pull');
-    return response('Success pulled', 200)->header('Content-Type', 'text/plain');
-});
+require __DIR__.'/auth.php';

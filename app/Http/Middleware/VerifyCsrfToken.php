@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'https://laravel.process.kz/public/pull'
+        'https://laravel.process.kz/public/*',
+        'http://localhost:8888/laravelprocess/public/*'
     ];
 }
