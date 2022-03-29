@@ -11,8 +11,6 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\PassController;
 use Illuminate\Support\Facades\Route;
 
-//ssss23
-
 Route::middleware('guest')->group(function () {
     Route::post('pass', [PassController::class, 'pass'])
                 ->name('pass');
