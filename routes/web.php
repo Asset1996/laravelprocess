@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/pull', function () {
+Route::post('/pull', function () {
     shell_exec('Git pull');
     return 'Git pull executed';
 });
