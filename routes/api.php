@@ -26,9 +26,9 @@ Route::group([
     Route::post('/me', [AuthController::class, 'me'])->name('me');
 });
 
-Route::group([
-    'middleware' => 'api'
-], function () {
-    Route::get('/testget', [PassController::class, 'testget'])->name('testget');
-    Route::get('/verify-kit', [PassController::class, 'verifyKit'])->name('verifyKit');
-});
+// Route::group([
+//     'middleware' => 'api'
+// ], function () {
+//     Route::get('/testget', [PassController::class, 'testget'])->name('testget');
+//     Route::get('/verify-kit', [PassController::class, 'verifyKit'])->name('verifyKit');
+// });

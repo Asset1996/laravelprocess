@@ -87,37 +87,44 @@ class PassController extends Controller
         return $response->error(['Logs are NOT saved.']);
     }
 
-    public function verifyKit(){
+    // public function verifyKit(){
 
-        $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
-        $clientIp = '172.20.10.2';
-        $vfk = new \VerifyKit\Web($serverKey);
-        $validationMethodList = $vfk->getValidationMethodList();
+    //     $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
+    //     $clientIp = '172.20.10.2';
+    //     $vfk = new \VerifyKit\Web($serverKey);
+    //     $validationMethodList = $vfk->getValidationMethodList();
 
-        $validationMethod = 'whatsapp';
-        $lang = 'en';
-        $deeplink = true;
-        $qrCode = false;
-        $validationStart = $vfk->startValidation($validationMethod, $lang, $deeplink, $qrCode);
-        $reference = $validationStart->getReference();
-        echo $reference;
-    }
+    //     $validationMethod = 'whatsapp';
+    //     $lang = 'en';
+    //     $deeplink = true;
+    //     $qrCode = false;
+    //     $validationStart = $vfk->startValidation($validationMethod, $lang, $deeplink, $qrCode);
+    //     Redis::set('reference', $validationStart->getReference());
 
-    public function testget(Request $request){
+    //     echo 'Перейдите по ссылке: ' . $validationStart->getDeeplink();
+        
+    // }
 
-        $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
-        $vfk = new \VerifyKit\Web($serverKey);
+    // public function testget(Request $request, JSONResponseProvider $response){
 
-        $reference = $request->header('reference');
-        $validationCheck = $vfk->checkValidation($reference);
+    //     $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
+    //     $vfk = new \VerifyKit\Web($serverKey);
 
-        if ($validationCheck->getValidationStatus()) {
-            $sessionId = $validationCheck->getSessionId(); // session id for the validation result
-            $appPlatform = $validationCheck->getAppPlatform(); // web, android or ios
-            print_r($sessionId);
-            print_r($appPlatform);
-        }else{
-            echo 'NOT TRUE';
-        }
-    }
+    //     $reference = Redis::get('reference');
+    //     Redis::del('reference');
+    //     $validationCheck = $vfk->checkValidation($reference);
+
+    //     if ($validationCheck->getValidationStatus()) {
+    //         $sessionId = $validationCheck->getSessionId(); // session id for the validation result
+    //         $appPlatform = $validationCheck->getAppPlatform(); // web, android or ios
+    //         return $response->success([
+    //             'status' => 'success',
+    //             'message' => 'Successfully logged in.',
+    //             'sessionId' => $sessionId,
+    //             'appPlatform' => $appPlatform
+    //         ]);
+    //     }else{
+    //         $response->error(['Login failed.']);
+    //     }
+    // }
 }
