@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use App\Helpers\Uploader;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Auth;
 
 class PassController extends Controller
 {
@@ -20,7 +18,6 @@ class PassController extends Controller
 
     public function __construct(Uploader $uploader)
     {
-        // $this->middleware('auth:api', ['except' => ['testget', 'verifyKit']]);
         $this->uploader = $uploader;
     }
     /**
@@ -31,7 +28,7 @@ class PassController extends Controller
      */
     public function pass(Request $request, User $user, JSONResponseProvider $response){
         $validator = Validator::make($request->all(), [
-            'password' => 'required|min:4',
+            'pass_password' => 'required|min:4',
         ]);
 
         if ($validator->fails()) {
