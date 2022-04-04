@@ -27,7 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'lastname',
         'email',
         'password',
-        'pass_password',
+        'pin_code',
     ];
 
     /**
@@ -37,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'pass_password',
+        'pin_code',
     ];
 
     /**
@@ -96,10 +96,10 @@ class User extends Authenticatable implements JWTSubject
      */
     public function passAuthenticate(array $data){
 
-        $all = $this::select('id', 'name', 'surname', 'lastname', 'pass_password')->get();
+        $all = $this::select('id', 'name', 'surname', 'lastname', 'pin_code')->get();
         
         foreach($all as $a){
-            if(password_verify($data['pass_password'], $a['pass_password'])){
+            if(password_verify($data['pin_code'], $a['pin_code'])){
                 $uniqId = uniqid();
                 return $a->toArray() + ['uid'=>$uniqId];
             }

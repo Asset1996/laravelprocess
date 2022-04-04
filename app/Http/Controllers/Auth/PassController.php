@@ -28,7 +28,7 @@ class PassController extends Controller
      */
     public function pass(Request $request, User $user, JSONResponseProvider $response){
         $validator = Validator::make($request->all(), [
-            'pass_password' => 'required|min:4',
+            'pin_code' => 'required|min:4',
         ]);
 
         if ($validator->fails()) {
