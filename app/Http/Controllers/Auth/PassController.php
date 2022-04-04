@@ -103,12 +103,12 @@ class PassController extends Controller
         echo $reference;
     }
 
-    public function testget(){
+    public function testget(Request $request){
 
         $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
         $vfk = new \VerifyKit\Web($serverKey);
 
-        $reference = '096a71deb323b2bd84c178163cd4c98937a59461';
+        $reference = $request->header('reference');
         $validationCheck = $vfk->checkValidation($reference);
 
         if ($validationCheck->getValidationStatus()) {
