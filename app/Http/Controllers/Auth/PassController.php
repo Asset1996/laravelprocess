@@ -10,8 +10,9 @@ use \App\Providers\JSONResponseProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 use App\Helpers\Uploader;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class PassController extends Controller
 {
@@ -19,6 +20,7 @@ class PassController extends Controller
 
     public function __construct(Uploader $uploader)
     {
+        $this->middleware('auth:api', ['except' => ['testget', 'verifyKit']]);
         $this->uploader = $uploader;
     }
     /**
@@ -83,5 +85,39 @@ class PassController extends Controller
             return $response->success(['Logs are saved successfully.']);
         }
         return $response->error(['Logs are NOT saved.']);
+    }
+
+    public function verifyKit(){
+
+        $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
+        $clientIp = '172.20.10.2';
+        $vfk = new \VerifyKit\Web($serverKey);
+        $validationMethodList = $vfk->getValidationMethodList();
+
+        $validationMethod = 'whatsapp';
+        $lang = 'en';
+        $deeplink = true;
+        $qrCode = false;
+        $validationStart = $vfk->startValidation($validationMethod, $lang, $deeplink, $qrCode);
+        $reference = $validationStart->getReference();
+        echo $reference;
+    }
+
+    public function testget(){
+
+        $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
+        $vfk = new \VerifyKit\Web($serverKey);
+
+        $reference = '096a71deb323b2bd84c178163cd4c98937a59461';
+        $validationCheck = $vfk->checkValidation($reference);
+
+        if ($validationCheck->getValidationStatus()) {
+            $sessionId = $validationCheck->getSessionId(); // session id for the validation result
+            $appPlatform = $validationCheck->getAppPlatform(); // web, android or ios
+            print_r($sessionId);
+            print_r($appPlatform);
+        }else{
+            echo 'NOT TRUE';
+        }
     }
 }
