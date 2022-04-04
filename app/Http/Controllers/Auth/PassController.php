@@ -20,7 +20,7 @@ class PassController extends Controller
 
     public function __construct(Uploader $uploader)
     {
-        $this->middleware('auth:api', ['except' => ['testget', 'verifyKit']]);
+        // $this->middleware('auth:api', ['except' => ['testget', 'verifyKit']]);
         $this->uploader = $uploader;
     }
     /**
