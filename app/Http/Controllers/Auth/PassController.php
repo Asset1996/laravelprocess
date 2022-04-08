@@ -28,7 +28,7 @@ class PassController extends Controller
      */
     public function pass(Request $request, User $user, JSONResponseProvider $response){
         $validator = Validator::make($request->all(), [
-            'pin_code' => 'required|min:4',
+            'pin_code' => 'required|min:6|min:6',
         ]);
 
         if ($validator->fails()) {
@@ -59,6 +59,7 @@ class PassController extends Controller
                 'required',
                 Rule::in([Redis::get('uid')]),
             ],
+            'device_id' => 'required',
             'base64' => 'required'
         ]);
 
@@ -72,6 +73,7 @@ class PassController extends Controller
 
         $passLog = PassLogs::create([
             'user_id' => Redis::get('id'),
+            'device_id' => $request->input('device_id'),
             'image_name' => $uploadedFile['fileName'],
             'image_path' => $uploadedFile['filePath'],
             'image_size' => $uploadedFile['fileSize']

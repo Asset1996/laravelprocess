@@ -12,6 +12,7 @@ class PassLogs extends Model
 
     protected $fillable = [
         'user_id',
+        'device_id',
         'image_name',
         'image_path',
         'image_size'
