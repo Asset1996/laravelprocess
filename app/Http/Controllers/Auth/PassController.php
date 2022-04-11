@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use App\Helpers\Uploader;
+use Illuminate\Support\Facades\DB;
 
 class PassController extends Controller
 {
@@ -53,7 +54,7 @@ class PassController extends Controller
      * @return \App\Helpers\JSONResponseProvider
      */
     public function takePicture(Request $request, User $user, JSONResponseProvider $response){
-
+        
         $validator = Validator::make($request->all(), [
             'uid' => [
                 'required',
@@ -71,59 +72,30 @@ class PassController extends Controller
         
         if (!empty($this->uploader->errors)) return $response->error($this->uploader->getFirstError());
 
+        $user_id = Redis::get('id');
+        Redis::del('id');
+        Redis::del('uid');
+
         $passLog = PassLogs::create([
-            'user_id' => Redis::get('id'),
+            'user_id' => $user_id,
             'device_id' => $request->input('device_id'),
             'image_name' => $uploadedFile['fileName'],
             'image_path' => $uploadedFile['filePath'],
             'image_size' => $uploadedFile['fileSize']
         ]);
-        Redis::del('id');
-        Redis::del('uid');
+        User::where('id', $user_id)->update(['is_on_duty'=>DB::raw(
+            'CASE 
+                WHEN `is_on_duty`=1 THEN 0
+                WHEN `is_on_duty`=0 THEN 1 
+            END'
+        )]);
+        $is_on_duty = User::select('is_on_duty')->where('id', $user_id)->first()->toArray()['is_on_duty'];
         if ($passLog->save()){
-            return $response->success(['Logs are saved successfully.']);
+            return $response->success([
+                'message' => 'Logs are saved successfully.',
+                'is_on_duty' => (bool) $is_on_duty
+            ]);
         }
         return $response->error(['Logs are NOT saved.']);
     }
-
-    // public function verifyKit(){
-
-    //     $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
-    //     $clientIp = '172.20.10.2';
-    //     $vfk = new \VerifyKit\Web($serverKey);
-    //     $validationMethodList = $vfk->getValidationMethodList();
-
-    //     $validationMethod = 'whatsapp';
-    //     $lang = 'en';
-    //     $deeplink = true;
-    //     $qrCode = false;
-    //     $validationStart = $vfk->startValidation($validationMethod, $lang, $deeplink, $qrCode);
-    //     Redis::set('reference', $validationStart->getReference());
-
-    //     echo 'Перейдите по ссылке: ' . $validationStart->getDeeplink();
-        
-    // }
-
-    // public function testget(Request $request, JSONResponseProvider $response){
-
-    //     $serverKey = 'ybs3c8743db15fb6cc52f13a88f894c972709b86a8faafe7aabb653fa0525';
-    //     $vfk = new \VerifyKit\Web($serverKey);
-
-    //     $reference = Redis::get('reference');
-    //     Redis::del('reference');
-    //     $validationCheck = $vfk->checkValidation($reference);
-
-    //     if ($validationCheck->getValidationStatus()) {
-    //         $sessionId = $validationCheck->getSessionId(); // session id for the validation result
-    //         $appPlatform = $validationCheck->getAppPlatform(); // web, android or ios
-    //         return $response->success([
-    //             'status' => 'success',
-    //             'message' => 'Successfully logged in.',
-    //             'sessionId' => $sessionId,
-    //             'appPlatform' => $appPlatform
-    //         ]);
-    //     }else{
-    //         $response->error(['Login failed.']);
-    //     }
-    // }
 }
