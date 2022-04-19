@@ -1,7 +1,26 @@
-require('./bootstrap');
+import {createApp} from 'vue'
 
-import Alpine from 'alpinejs';
+require('./bootstrap')
+import '../../src/input.css'
+import App from './components/App.vue'
+import Store from './store'
+import Axios from 'axios'
+import Router from './router'
+import jwt_decode from 'jwt-decode'
+import FlashMessage from '@smartweb/vue-flash-message';
 
-window.Alpine = Alpine;
+import LeftBar from './components/LeftBar.vue'
+import Menu from './components/Menu.vue'
+import Footer from './components/Footer.vue'
 
-Alpine.start();
+const app = createApp(App)
+app.use(FlashMessage);
+app.component('Footer', Footer)
+app.component('LeftBar', LeftBar)
+app.component('Menu', Menu)
+app.config.globalProperties.$axios = Axios;
+app.config.globalProperties.$jwt_decode = jwt_decode;
+app.use(Store)
+app.use(Router)
+
+app.mount('#app')

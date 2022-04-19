@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use App\Providers\JSONResponseProvider;
+use App\Models\User;
 
 class AuthController extends Controller
 {
+    protected $jsonResponder;
+
     /**
-     * Create a new AuthController instance.
-     *
+     * Constructor.
+     * @param JSONResponseProvider
      * @return void
      */
-    public function __construct()
+    public function __construct(JSONResponseProvider $jsonResponder)
     {
+        $this->jsonResponder = $jsonResponder;
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
@@ -23,12 +29,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Response $response)
+    public function login(Request $request, Response $response)
     {
         $credentials = request(['iin', 'password']);
         if (! $token = Auth::attempt($credentials)) {
-
-            return response()->json(['error' => 'Unauthorized'], 401);
+    
+            return $this->jsonResponder->error('User not found');
         }
         return $this->respondWithToken($token, $response);
     }
@@ -43,6 +49,11 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
+    public function usersList(JSONResponseProvider $response){
+        $usersList = User::getList();
+        return $this->jsonResponder->success($usersList);
+    }
+
     /**
      * Log the user out (Invalidate the token).
      *
@@ -52,7 +63,10 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'result' => True,
+            'message' => 'Successfully logged out',
+        ]);
     }
 
     /**
@@ -74,10 +88,15 @@ class AuthController extends Controller
      */
     protected function respondWithToken(string $token, Response $response): Response
     {
-        return $response->setContent(['result' => True, 'message' => 'Success'])->withHeaders([
-                'X-Auth' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
-            ]);
+        return $response->setContent([
+            'result' => True, 
+            'message' => 
+            'Successfully logged in.', 
+            'code' => 200
+        ])->withHeaders([
+            'X-Auth' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 }

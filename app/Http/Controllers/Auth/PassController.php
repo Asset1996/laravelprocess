@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\PassLogs;
+use App\Models\TimingLogs;
 use \App\Providers\JSONResponseProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
@@ -76,8 +77,11 @@ class PassController extends Controller
         Redis::del('id');
         Redis::del('uid');
 
+        $is_on_duty = User::select('is_on_duty')->where('id', $user_id)->first()->toArray()['is_on_duty'];
+
         $passLog = PassLogs::create([
             'user_id' => $user_id,
+            'direction' => !$is_on_duty,
             'device_id' => $request->input('device_id'),
             'image_name' => $uploadedFile['fileName'],
             'image_path' => $uploadedFile['filePath'],
@@ -89,11 +93,13 @@ class PassController extends Controller
                 WHEN `is_on_duty`=0 THEN 1 
             END'
         )]);
-        $is_on_duty = User::select('is_on_duty')->where('id', $user_id)->first()->toArray()['is_on_duty'];
+
+        TimingLogs::record($user_id, (bool) $is_on_duty);
+        
         if ($passLog->save()){
             return $response->success([
                 'message' => 'Logs are saved successfully.',
-                'is_on_duty' => (bool) $is_on_duty
+                'is_on_duty' => (bool) !$is_on_duty
             ]);
         }
         return $response->error(['Logs are NOT saved.']);

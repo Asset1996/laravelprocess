@@ -11,9 +11,10 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.4",
+        "phpoffice/phpspreadsheet": "^1.22",
         "predis/predis": "^1.1",
-        "tymon/jwt-auth": "^1.0",
-        "verifykit/verifykit-sdk-php": "^1.2"
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

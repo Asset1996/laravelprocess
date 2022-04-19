@@ -10,13 +10,13 @@ class JSONResponseProvider
      *
      * @return JSON
      */
-    public function success(array $data = [], int $statusCode = 201)
+    public function success(array $data = [], int $statusCode = 200)
     {
-        return json_encode([
+        return response()->json([
             'result' => True,
             'data' => $data,
-            'status' => $statusCode
-        ]);
+            'code' => $statusCode
+        ], $statusCode);
     }
 
     /**
@@ -26,10 +26,10 @@ class JSONResponseProvider
      */
     public function error($message = 'error occured', int $statusCode = 401)
     {
-        return json_encode([
+        return response()->json([
             'result' => False,
             'message' => $message,
             'code' => $statusCode
-        ]);
+        ], $statusCode);
     }
 }

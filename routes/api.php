@@ -1,20 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\PassController;
+use App\Http\Controllers\PassLogsController;
+use App\Http\Controllers\TimingLogsController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -26,9 +16,20 @@ Route::group([
     Route::post('/me', [AuthController::class, 'me'])->name('me');
 });
 
-// Route::group([
-//     'middleware' => 'api'
-// ], function () {
-//     Route::get('/testget', [PassController::class, 'testget'])->name('testget');
-//     Route::get('/verify-kit', [PassController::class, 'verifyKit'])->name('verifyKit');
-// });
+Route::group([
+    'prefix' => 'history'
+], function() {
+    Route::get('/list', [PassLogsController::class, 'list'])->middleware('IsSuperadmin')->name('logsList');
+});
+
+Route::group([
+    'prefix' => 'user'
+], function() {
+    Route::get('/list', [AuthController::class, 'usersList'])
+        ->middleware('IsSuperadmin')
+        ->name('usersList');
+    Route::get('/timings-list/{user_id}', [TimingLogsController::class, 'timingsList'])
+        ->middleware('IsSuperadmin')
+        ->whereNumber('user_id')
+        ->name('timingsList');
+});

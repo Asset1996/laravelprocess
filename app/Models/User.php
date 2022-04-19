@@ -1,12 +1,11 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Helpers\Headers;
+use App\Helpers\Paginator;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -25,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'surname',
         'lastname',
+        'roles_id',
         'email',
         'password',
         'pin_code',
@@ -63,6 +63,7 @@ class User extends Authenticatable implements JWTSubject
             'iin' => $this->iin,
             'name' => $this->name,
             'surname' => $this->surname,
+            'roles_id' => $this->roles_id,
             'email' => $this->email,
         ];
     }
@@ -91,6 +92,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Связь с моделью Roles.
+     *
+     * @return $this
+     */
+    public function roles()
+    {
+        return $this->belongsTo('App\Models\Roles');
+    }
+
+    /**
      * Проверяет проходит ли аутентификацию пользователь с данным паролем.
      *
      * @return array|bool
@@ -106,5 +117,36 @@ class User extends Authenticatable implements JWTSubject
             }
         }
         return False;
+    }
+
+    /**
+     * Получние списка пользователей.
+     *
+     * @return array
+     */
+    public static function getList(): array
+    {
+        $result = array();
+        $userList = User::with('roles')->paginate($_ENV['PAGE_NUM']);
+
+        $result['headers'] = Headers::get('user.list');
+
+        foreach($userList as $user){
+            $result['body'][] = [
+                'id' => $user['id'],
+                'iin' => $user['iin'],
+                'fio' => $user['name'] . ' ' . $user['surname'],
+                'role' => [
+                    'key' => $user['roles_id'],
+                    'value' => $user['roles']['title']
+                ],
+                'is_on_duty' => [
+                    'key' => $user['is_on_duty'],
+                    'value' => trans('base.is_on_duty.'.(string)$user['is_on_duty'])
+                ],
+            ];
+        }
+        $result['paginator'] = Paginator::get($userList);;
+        return $result;
     }
 }
