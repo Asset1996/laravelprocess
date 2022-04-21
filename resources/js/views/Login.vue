@@ -89,7 +89,7 @@ import axios from 'axios'
                     this.$flashMessage.show({
                         status: 'error',
                         title: 'Ошибка',
-                        text: err.response.data.message || 'Ошибка',
+                        // text: err.response.data.message || 'Ошибка',
                     });
                 })
             }
