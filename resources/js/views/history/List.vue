@@ -151,7 +151,6 @@
         },
         methods: {
             logsList(url=null) {
-                console.log(process.env.MIX_APP_URL)
                 let request_headers = {}
                 if(this.$store.state.token !== null) {
                     request_headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
