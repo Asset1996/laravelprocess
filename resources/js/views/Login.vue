@@ -62,6 +62,7 @@ import axios from 'axios'
                 console.log('test5')
                 console.log(process.env.MIX_THIS_URL)
                 console.log(process.env.MIX_THIS_PATH)
+                console.log(process.env.MIX_TEST)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {
