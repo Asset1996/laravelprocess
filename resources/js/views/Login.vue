@@ -67,8 +67,8 @@ import axios from 'axios'
                     }
                 }).then(res => {
                     if(res.data.result){
-                        let payload = this.$jwt_decode(res.headers['x-auth'])
-                        this.$store.commit('setToken', res.headers['x-auth'])
+                        let payload = this.$jwt_decode(res.headers['X-Auth'])
+                        this.$store.commit('setToken', res.headers['X-Auth'])
                         this.$store.commit('setUserData', payload)
                         this.$flashMessage.show({
                             status: 'success',

@@ -95,7 +95,7 @@
             <div
             class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                 <div v-if="image" class="modal-body relative p-4">
-                    <p><img :src="'http://localhost:8888/laravelprocess' + image" alt=""></p>
+                    <p><img :src="MAIN_URL + image" alt=""></p>
                 </div>
                 <div
                     class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
