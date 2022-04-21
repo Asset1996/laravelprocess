@@ -31,6 +31,7 @@ class AuthController extends Controller
      */
     public function login(Request $request, Response $response)
     {
+        echo $_ENV['MIX_APP_URL'];exit();
         $credentials = request(['iin', 'password']);
         if (! $token = Auth::attempt($credentials)) {
     
