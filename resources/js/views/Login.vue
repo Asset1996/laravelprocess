@@ -59,7 +59,7 @@ import axios from 'axios'
         },
         methods: {
             login(){
-                console.log('test6')
+                console.log('test7')
                 console.log('MIX_THIS_URL', process.env.MIX_THIS_URL)
                 console.log('MIX_THIS_URL_PUBLIC', process.env.MIX_THIS_URL_PUBLIC)
                 console.log('MIX_THIS_URL_API', process.env.MIX_THIS_URL_API)
