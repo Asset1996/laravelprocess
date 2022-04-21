@@ -1,10 +1,110 @@
 <template>
     <!-- component -->
     <div class="sm:px-6 w-full">
-        <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
         <div class="px-4 md:px-10 py-4 md:py-7">
             <div class="flex items-center justify-between">
-                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">{{user_fio}}</p>
+                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">USER FIO</p>
+                <div class="flex justify-center">
+                    <div class="dropdown relative">
+                    <button
+                        class="
+                        dropdown-toggle
+                        px-6
+                        py-2.5
+                        bg-blue-600
+                        text-white
+                        font-medium
+                        text-xs
+                        leading-tight
+                        uppercase
+                        rounded
+                        shadow-md
+                        hover:bg-blue-700 hover:shadow-lg
+                        focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+                        active:bg-blue-800 active:shadow-lg active:text-white
+                        transition
+                        duration-150
+                        ease-in-out
+                        flex
+                        items-center
+                        whitespace-nowrap
+                        "
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Экспорт
+                        <path
+                            fill="currentColor"
+                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                        ></path>
+                    </button>
+                    <ul
+                        class="
+                        dropdown-menu
+                        min-w-max
+                        absolute
+                        hidden
+                        bg-white
+                        text-base
+                        z-50
+                        float-left
+                        py-2
+                        list-none
+                        text-left
+                        rounded-lg
+                        shadow-lg
+                        mt-1
+                        hidden
+                        m-0
+                        bg-clip-padding
+                        border-none
+                        "
+                        aria-labelledby="dropdownMenuButton1"
+                    >
+                        <li>
+                            <a
+                                class="
+                                dropdown-item
+                                text-sm
+                                py-2
+                                px-4
+                                font-normal
+                                block
+                                w-full
+                                whitespace-nowrap
+                                bg-transparent
+                                text-gray-700
+                                hover:bg-gray-100
+                                "
+                                :href="EXPORT_URL"
+                                >Excel
+                            </a
+                        >
+                        </li>
+                        <li>
+                        <a
+                            class="
+                            dropdown-item
+                            text-sm
+                            py-2
+                            px-4
+                            font-normal
+                            block
+                            w-full
+                            whitespace-nowrap
+                            bg-transparent
+                            text-gray-700
+                            hover:bg-gray-100
+                            "
+                            :href="EXPORT_URL"
+                            >PDF</a
+                        >
+                        </li>
+                    </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
@@ -43,7 +143,7 @@
                         <button v-if="item.url"
                             class="page-link relative block py-1.5 px-3 rounded border-0 outline-none transition-all duration-300 rounded"
                             v-bind:class="{ 'bg-blue-600 text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md': item.active }"
-                            @click.prevent="getTimingList(item.url)">{{item.label}}</button>
+                            @click.prevent="setParam('page', item.page)">{{item.label}}</button>
                     </li>
                 </ul>
             </nav>
@@ -65,6 +165,10 @@ export default {
             API_URL: process.env.MIX_APP_URL_API,
             PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
             PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
+            EXPORT_URL: `${process.env.MIX_APP_URL_API}/user/timings-export/${this.$route.params.user_id}`,
+            params: {
+                page: null
+            },
             page_limit: 0
         }
     },
@@ -73,18 +177,17 @@ export default {
     },
     methods: {
         getTimingList(url){
-            let headers = {}
+            let request_headers = {}
             if(this.$store.state.token !== null) {
-                    headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
+                    request_headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
                 }
-            headers['Accept'] = 'application/json'
-            headers['Accept'] = 'application/json'
+            request_headers['Accept'] = 'application/json'
             if(url == null) {
                 url = this.API_URL + '/user/timings-list/' + this.user_id
             }
 
             axios
-            .get(url, {headers})
+            .get(url, {headers: request_headers, params: this.params})
             .then(response => {
                 if(response.data.result){
                     this.headers = response.data.data.headers;
@@ -107,6 +210,10 @@ export default {
                 });
                 this.$router.push(this.PUBLIC_URL)
             })
+        },
+        setParam(key, val){
+            this.params[key] = val;
+            this.logsList()
         }
     }
     

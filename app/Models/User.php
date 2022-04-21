@@ -149,4 +149,23 @@ class User extends Authenticatable implements JWTSubject
         $result['paginator'] = Paginator::get($userList);;
         return $result;
     }
+
+    /**
+     * Получние ФИО и ID пользователей.
+     *
+     * @return array
+     */
+    public static function getFioAndIdList(): array
+    {
+        $result = array();
+        $userList = User::select('id', 'name', 'surname')->get();
+
+        foreach($userList as $user){
+            $result[] = [
+                'id' => $user['id'],
+                'fio' => $user['name'] . ' ' . $user['surname'],
+            ];
+        }
+        return $result;
+    }
 }

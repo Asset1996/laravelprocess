@@ -1,7 +1,6 @@
 <template>
     <!-- component -->
     <div class="sm:px-6 w-full">
-        <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
         <div class="px-4 md:px-10 py-4 md:py-7">
             <div class="flex items-center justify-between">
                 <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Список пользователей</p>
@@ -59,7 +58,7 @@
                         <button v-if="item.url"
                             class="page-link relative block py-1.5 px-3 rounded border-0 outline-none transition-all duration-300 rounded"
                             v-bind:class="{ 'bg-blue-600 text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md': item.active }"
-                            @click.prevent="getUsersList(item.url)">{{item.label}}</button>
+                            @click.prevent="setParam('page', item.page)">{{item.label}}</button>
                     </li>
                 </ul>
             </nav>
@@ -79,6 +78,9 @@ export default {
             API_URL: process.env.MIX_APP_URL_API,
             PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
             PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
+            params: {
+                page: null
+            },
             page_limit: 0
         }
     },
@@ -87,17 +89,17 @@ export default {
     },
     methods: {
         getUsersList(url=null){
-            let headers = {}
+            let request_headers = {}
+            request_headers['Accept'] = 'application/json'
             if(this.$store.state.token !== null) {
-                    headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
-                }
-            headers['Accept'] = 'application/json'
+                request_headers['Authorization'] = `Bearer ${this.$store.state.token}`
+            }
             if(url == null) {
                 url = this.API_URL + '/user/list'
             }
 
             axios
-            .get(url, {headers})
+            .get(url, {headers: request_headers, params: this.params})
             .then(response => {
                 if(response.data.result){
                     this.headers = response.data.data.headers;
@@ -114,14 +116,18 @@ export default {
                 this.$flashMessage.show({
                     status: 'error',
                     title: 'Ошибка',
-                    text: err.response.data.message || 'Ошибка',
+                    text: error.response.data.message || 'Ошибка',
                 });
-                this.$router.push(this.PUBLIC_URL)
+                this.$router.push('/laravelprocess/public/')
             })
         },
         isObject(item){
             return typeof item == 'object'
         },
+        setParam(key, val){
+            this.params[key] = val;
+            this.logsList()
+        }
     }
 }
 </script>

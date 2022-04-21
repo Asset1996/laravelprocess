@@ -2,40 +2,27 @@
     <div>
         <!-- component -->
         <div class="sm:px-6 w-full">
-            <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
             <div class="px-4 md:px-10 py-4 md:py-7">
+                {{param}}
                 <div class="flex items-center justify-between">
                     <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Журнал</p>
-                    <!-- <div class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
-                        <p>Sort By:</p>
-                        <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
-                            <option class="text-sm text-indigo-800">Первый</option>
-                            <option class="text-sm text-indigo-800">Второй</option>
-                            <option class="text-sm text-indigo-800">Третий</option>
+                    <div class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+                        <p>Сотрудник:</p>
+                        <select @change="setParam('user_id', $event.srcElement.value)" aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
+                            <option value="" class="text-sm text-indigo-800">Все</option>
+                            <template v-for="user in userList" v-bind:key="user.id" >
+                                <option :value="user.id" class="text-sm text-indigo-800">{{user.fio}}</option>
+                            </template>
                         </select>
-                    </div> -->
+                    </div>
+                    <div class="flex items-center justify-center  text-gray-600 bg-gray-200 hover:bg-gray-300">
+                        <div class="datepicker relative form-floating">
+                            <input type="date"  @input="setParam('created_at', $event.srcElement.value)" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
-                <!-- <div class="sm:flex items-center justify-between">
-                    <div class="flex items-center">
-                        <a class="rounded-full focus:outline-none focus:ring-2  focus:bg-indigo-50 focus:ring-indigo-800" href=" javascript:void(0)">
-                            <div class="py-2 px-8 bg-indigo-100 text-indigo-700 rounded-full">
-                                <p>Все</p>
-                            </div>
-                        </a>
-                        <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8" href="javascript:void(0)">
-                            <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
-                                <p>Не все</p>
-                            </div>
-                        </a>
-                        <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8" href="javascript:void(0)">
-                            <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
-                                <p>Не всякий</p>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
                 <div class="mt-7 overflow-x-auto">
                     <table class="w-full whitespace-nowrap">
                         <thead>
@@ -94,7 +81,7 @@
                             <button v-if="item.url"
                                 class="page-link relative block py-1.5 px-3 rounded border-0 outline-none transition-all duration-300 rounded"
                                 v-bind:class="{ 'bg-blue-600 text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md': item.active }"
-                                @click.prevent="logsList(item.url)">{{item.label}}</button>
+                                @click.prevent="setParam('page', item.page)">{{item.label}}</button>
                         </li>
                     </ul>
                 </nav>
@@ -137,36 +124,44 @@
 
 <script>
     import axios from 'axios';
+    import { ref } from 'vue';
     export default {
-        name: "List",
+        components: {},
         data(){
             return {
                 body: [],
                 headers: [],
                 paginator: [],
+                userList: [],
                 image: null,
                 MAIN_URL: process.env.MIX_APP_URL,
                 API_URL: process.env.MIX_APP_URL_API,
                 PUBLIC_URL: process.env.MIX_APP_URL_API,
+                params: {
+                    user_id: null,
+                    created_at: null,
+                    page: null
+                },
                 page_limit: 0
             }
         },
         mounted() {
-            this.logsList()
+            this.logsList(),
+            this.getUsersFioAndIdList()
         },
         methods: {
             logsList(url=null) {
-                let headers = {}
+                let request_headers = {}
                 if(this.$store.state.token !== null) {
-                    headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
+                    request_headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
                 }
-                headers['Accept'] = 'application/json'
+                request_headers['Accept'] = 'application/json'
                 if(url == null) {
                     url = this.API_URL + '/history/list'
                 }
 
                 axios
-                .get(url, {headers})
+                .get(url, {headers: request_headers, params: this.params})
                 .then(response => {
                     if(response.data.result){
                         this.headers = response.data.data.headers;
@@ -193,7 +188,28 @@
             },
             sendInfoToModal(image) {
                 this.image = image;
+            },
+            getUsersFioAndIdList(url=null){
+                let request_headers = {}
+                request_headers['Accept'] = 'application/json'
+                if(this.$store.state.token !== null) {
+                    request_headers['Authorization'] = `Bearer ${this.$store.state.token}`
+                }
+                url = this.API_URL + '/user/fio-and-id-list'
+
+                axios
+                .get(url, {headers: request_headers})
+                .then(response => {
+                    if(response.data.result){
+                        this.userList = response.data.data;
+                    }
+                })
+            },
+            setParam(key, val){
+                this.params[key] = val;
+                this.logsList()
             }
-        }
+        },
+        
     }
 </script>

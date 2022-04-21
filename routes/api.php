@@ -28,8 +28,13 @@ Route::group([
     Route::get('/list', [AuthController::class, 'usersList'])
         ->middleware('IsSuperadmin')
         ->name('usersList');
+    Route::get('/fio-and-id-list', [AuthController::class, 'getUsersFioAndId'])
+        ->name('usersList');
     Route::get('/timings-list/{user_id}', [TimingLogsController::class, 'timingsList'])
         ->middleware('IsSuperadmin')
         ->whereNumber('user_id')
         ->name('timingsList');
+    Route::get('/timings-export/{user_id}', [TimingLogsController::class, 'exportExcel'])
+        ->whereNumber('user_id')
+        ->name('exportExcellTimings');
 });

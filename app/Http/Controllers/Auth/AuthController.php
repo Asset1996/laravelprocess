@@ -54,6 +54,11 @@ class AuthController extends Controller
         return $this->jsonResponder->success($usersList);
     }
 
+    public function getUsersFioAndId(JSONResponseProvider $response){
+        $usersList = User::getFioAndIdList();
+        return $this->jsonResponder->success($usersList);
+    }
+
     /**
      * Log the user out (Invalidate the token).
      *

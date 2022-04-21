@@ -35,11 +35,7 @@ const routes = [
         path: PUBLIC_URL + '/user/timings-list/:user_id',
         component:() => import('./views/user/TimingList.vue'),
         beforeEnter: () => isSuperadmin()
-    },
-    {
-        path: PUBLIC_URL + '/test',
-        component:() => import('./views/Test.vue')
-    },
+    }
 ]
 
 function isSuperadmin() {

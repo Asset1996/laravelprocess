@@ -57,7 +57,12 @@ class PassLogs extends Model
     public static function getList(): array
     {
         $result = array();
-        $logs = PassLogs::with('user.roles')->orderBy('created_at', 'desc')->paginate($_ENV['PAGE_NUM']);
+        
+        $logs = self::with('user.roles')
+            ->user_id(request()->user_id)
+            ->created_at(request()->created_at)
+            ->orderBy('created_at', 'desc')
+            ->paginate($_ENV['PAGE_NUM']);
 
         $result['headers'] = Headers::get('passLogs.list');
 
@@ -81,5 +86,25 @@ class PassLogs extends Model
         $result['paginator'] = Paginator::get($logs);
         
         return $result;
+    }
+
+    public function scopeUser_id($query, $user_id)
+    {
+        if (!is_null($user_id)) {
+            return $query->where('user_id', $user_id);
+        }
+
+        return $query;
+    }
+
+    public function scopeCreated_at($query, $created_at)
+    {
+        if ($created_at) {
+            $created_at = \Illuminate\Support\Str::limit($created_at, 15, $end='');
+            $created_at = new \DateTime($created_at);
+            return $query->whereDate('created_at', $created_at);
+        }
+
+        return $query;
     }
 }

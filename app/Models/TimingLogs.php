@@ -44,10 +44,11 @@ class TimingLogs extends Model
             ->orderBy('created_at', 'desc')
             // ->skip(1)
             ->first();
-        
-            $created_at = Carbon::parse($lastLogForToday->created_at);
-
-            $minutes = $created_at->diffInMinutes(Carbon::now());
+            
+            if($lastLogForToday->created_at){
+                $created_at = Carbon::parse($lastLogForToday->created_at);
+                $minutes = $created_at->diffInMinutes(Carbon::now());
+            }
 
             return self::updateOrCreate(
                 ['day' => date('Y:m:d'), 'user_id' => $user_id],

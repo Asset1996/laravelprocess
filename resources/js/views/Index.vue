@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         {{ token }}
+        {{loltoken}}
     </div>
 </template>
 
@@ -10,6 +11,9 @@
         computed: {
             token () {
                 return this.$store.state.token
+            },
+            loltoken () {
+                return localStorage.getItem('token')
             }
         }
     }
