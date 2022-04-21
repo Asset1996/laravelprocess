@@ -59,10 +59,14 @@ import axios from 'axios'
         },
         methods: {
             login(){
-                console.log('test5')
-                console.log(process.env.MIX_THIS_URL)
-                console.log(process.env.MIX_THIS_PATH)
-                console.log(process.env.MIX_TEST)
+                console.log('test6')
+                console.log('MIX_THIS_URL', process.env.MIX_THIS_URL)
+                console.log('MIX_THIS_URL_PUBLIC', process.env.MIX_THIS_URL_PUBLIC)
+                console.log('MIX_THIS_URL_API', process.env.MIX_THIS_URL_API)
+
+                console.log('MIX_THIS_PATH', process.env.MIX_THIS_PATH)
+                console.log('MIX_THIS_PATH_PUBLIC', process.env.MIX_THIS_PATH_PUBLIC)
+                console.log('MIX_THIS_PATH_API', process.env.MIX_THIS_PATH_API)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {

@@ -118,7 +118,7 @@ export default {
                     title: 'Ошибка',
                     text: error.response.data.message || 'Ошибка',
                 });
-                this.$router.push('/laravelprocess/public/')
+                this.$router.push(this.PUBLIC_PATH)
             })
         },
         isObject(item){
