@@ -52,15 +52,15 @@ import axios from 'axios'
                     iin: "",
                     password: ""
                 },
-                API_URL: process.env.MIX_URL_API,
-                PUBLIC_URL: process.env.MIX_URL_API,
+                API_URL: process.env.MIX_THIS_URL_API,
+                PUBLIC_URL: process.env.MIX_THIS_URL_API,
                 error: false
             }
         },
         methods: {
             login(){
-                console.log('test4')
-                console.log(process.env.MIX_URL)
+                console.log('test5')
+                console.log(process.env.MIX_THIS_URL)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {
