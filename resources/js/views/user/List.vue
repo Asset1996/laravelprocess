@@ -74,10 +74,10 @@ export default {
             body: [],
             headers: [],
             paginator: [],
-            MAIN_URL: process.env.MIX_APP_URL,
-            API_URL: process.env.MIX_APP_URL_API,
-            PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
-            PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
+            MAIN_URL: process.env.MIX_URL,
+            API_URL: process.env.MIX_URL_API,
+            PUBLIC_URL: process.env.MIX_URL_PUBLIC,
+            PUBLIC_PATH: process.env.MIX_PATH_PUBLIC,
             params: {
                 page: null
             },

@@ -8,9 +8,8 @@ import Login from './views/Login.vue'
 import LogsList from './views/history/List.vue'
 import UsersList from './views/user/List.vue'
 import TimingList from './views/user/TimingList.vue'
-import Test from './views/Test.vue'
 
-const PUBLIC_URL = process.env.MIX_APP_PATH_PUBLIC
+const PUBLIC_URL = process.env.MIX_PATH_PUBLIC
 
 const routes = [
     {

@@ -52,17 +52,15 @@ import axios from 'axios'
                     iin: "",
                     password: ""
                 },
-                API_URL: process.env.MIX_APP_URL_API,
-                PUBLIC_URL: process.env.MIX_APP_URL_API,
+                API_URL: process.env.MIX_URL_API,
+                PUBLIC_URL: process.env.MIX_URL_API,
                 error: false
             }
         },
         methods: {
             login(){
-                console.log('test3')
-                console.log(process.env.MIX_APP_URL)
-                console.log(process.env.MIX_TEST_VAL)
-                console.log(process.env.MIX_VUE_TEST_VAL)
+                console.log('test4')
+                console.log(process.env.MIX_URL)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {
