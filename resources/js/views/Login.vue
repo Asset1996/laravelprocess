@@ -59,6 +59,7 @@ import axios from 'axios'
         },
         methods: {
             login(){
+                console.log(process.env.MIX_APP_URL_API)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {
@@ -84,6 +85,7 @@ import axios from 'axios'
                     }
                 })
                 .catch(err => {
+                    console.log(err)
                     this.$flashMessage.show({
                         status: 'error',
                         title: 'Ошибка',
