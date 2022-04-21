@@ -35,15 +35,15 @@ import axios from 'axios';
                 links: {
                     logsList: {
                         'title': 'Журнал',
-                        'href': process.env.MIX_PATH_PUBLIC + '/history/list/'
+                        'href': process.env.MIX_THIS_PATH_PUBLIC + '/history/list/'
                     },
                     usersList: {
                         'title': 'Список пользователей',
-                        'href': process.env.MIX_PATH_PUBLIC + '/user/list/'
+                        'href': process.env.MIX_THIS_PATH_PUBLIC + '/user/list/'
                     },
                     test: {
                         'title': 'TEST',
-                        'href': process.env.MIX_PATH_PUBLIC + '/test/'
+                        'href': process.env.MIX_THIS_PATH_PUBLIC + '/test/'
                     }
                 }
             }

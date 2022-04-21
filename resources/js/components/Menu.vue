@@ -44,15 +44,15 @@
                 links: {
                     home: {
                         'title': 'Главное',
-                        'href': process.env.MIX_PATH_PUBLIC
+                        'href': process.env.MIX_THIS_PATH_PUBLIC
                     },
                     login: {
                         'title': 'Войти',
-                        'href': process.env.MIX_PATH_PUBLIC + '/login/'
+                        'href': process.env.MIX_THIS_PATH_PUBLIC + '/login/'
                     },
                     logout: {
                         'title': 'Выйти',
-                        'href': process.env.MIX_PATH_API + '/auth/logout/'
+                        'href': process.env.MIX_THIS_PATH_API + '/auth/logout/'
                     },
                 }
             }
@@ -75,11 +75,11 @@
                 headers['Accept'] = 'application/json'
 
                 axios
-                .post(process.env.MIX_PATH_API + '/auth/logout', [], {headers})
+                .post(process.env.MIX_THIS_PATH_API + '/auth/logout', [], {headers})
                 .then(response => {
                     this.$store.commit('clearToken')
                     this.$store.commit('clearUserData')
-                    this.$router.push(process.env.MIX_PATH_PUBLIC + '/login')
+                    this.$router.push(process.env.MIX_THIS_PATH_PUBLIC + '/login')
                 })
                 .catch(error => {
                 });

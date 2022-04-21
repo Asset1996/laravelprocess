@@ -134,9 +134,9 @@
                 paginator: [],
                 userList: [],
                 image: null,
-                MAIN_URL: process.env.MIX_URL,
-                API_URL: process.env.MIX_URL_API,
-                PUBLIC_URL: process.env.MIX_URL_API,
+                MAIN_URL: process.env.MIX_THIS_URL,
+                API_URL: process.env.MIX_THIS_URL_API,
+                PUBLIC_URL: process.env.MIX_THIS_URL_API,
                 params: {
                     user_id: null,
                     created_at: null,
