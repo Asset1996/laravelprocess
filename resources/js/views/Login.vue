@@ -66,8 +66,8 @@ import axios from 'axios'
                     }
                 }).then(res => {
                     if(res.data.result){
-                        let payload = this.$jwt_decode(res.headers['X-Auth'])
-                        this.$store.commit('setToken', res.headers['X-Auth'])
+                        let payload = this.$jwt_decode(res.headers['x-auth'])
+                        this.$store.commit('setToken', res.headers['x-auth'])
                         this.$store.commit('setUserData', payload)
                         this.$flashMessage.show({
                             status: 'success',
@@ -84,11 +84,10 @@ import axios from 'axios'
                     }
                 })
                 .catch(err => {
-                    console.log(err)
                     this.$flashMessage.show({
                         status: 'error',
                         title: 'Ошибка',
-                        // text: err.response.data.message || 'Ошибка',
+                        text: err.response.data.message || 'Ошибка',
                     });
                 })
             }

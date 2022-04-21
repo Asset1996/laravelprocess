@@ -193,6 +193,8 @@ return [
     |
     */
 
+    'mix_url' => env('MIX_APP_URL', null),
+
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
