@@ -17,7 +17,7 @@ class TimingLogsController extends Controller
     public function __construct(JSONResponseProvider $jsonResponder)
     {
         $this->jsonResponder = $jsonResponder;
-        $this->middleware('auth:api', ['except' => ['login', 'exportExcel']]);
+        $this->middleware('isTokenValid', ['except' => ['login', 'exportExcel']]);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+// use Tymon\JWTAuth\Http\Middleware\Check;
+
 class Kernel extends HttpKernel
 {
     /**
@@ -41,8 +43,8 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // 'throttle:api',
+            // \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -65,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'IsSuperadmin' => \App\Http\Middleware\IsSuperadmin::class,
+        'isTokenValid' => \App\Http\Middleware\EnsureJWTIsValid::class,
     ];
 }

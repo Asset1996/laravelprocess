@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\PassController;
 use App\Http\Controllers\PassLogsController;
 use App\Http\Controllers\TimingLogsController;
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
 
@@ -25,10 +26,10 @@ Route::group([
 Route::group([
     'prefix' => 'user'
 ], function() {
-    Route::get('/list', [AuthController::class, 'usersList'])
+    Route::get('/list', [UserController::class, 'usersList'])
         ->middleware('IsSuperadmin')
         ->name('usersList');
-    Route::get('/fio-and-id-list', [AuthController::class, 'getUsersFioAndId'])
+    Route::get('/fio-and-id-list', [UserController::class, 'getUsersFioAndId'])
         ->name('usersList');
     Route::get('/timings-list/{user_id}', [TimingLogsController::class, 'timingsList'])
         ->middleware('IsSuperadmin')
@@ -37,4 +38,13 @@ Route::group([
     Route::get('/timings-export/{user_id}', [TimingLogsController::class, 'exportExcel'])
         ->whereNumber('user_id')
         ->name('exportExcellTimings');
+    
+    Route::any('/create', [UserController::class, 'createUser'])
+        ->middleware('IsSuperadmin')
+        ->name('createUser');
+    
+    Route::prefix('cron')->group(function () {
+        Route::post('exit', [PassController::class, 'cronExitAll'])
+            ->name('cronForceExit');
+    });
 });

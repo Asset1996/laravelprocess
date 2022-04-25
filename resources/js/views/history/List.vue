@@ -3,7 +3,6 @@
         <!-- component -->
         <div class="sm:px-6 w-full">
             <div class="px-4 md:px-10 py-4 md:py-7">
-                {{param}}
                 <div class="flex items-center justify-between">
                     <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Журнал</p>
                     <div class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
@@ -134,9 +133,9 @@
                 paginator: [],
                 userList: [],
                 image: null,
-                MAIN_URL: process.env.MIX_THIS_URL,
-                API_URL: process.env.MIX_THIS_URL_API,
-                PUBLIC_URL: process.env.MIX_THIS_URL_API,
+                MAIN_URL: process.env.MIX_APP_URL,
+                API_URL: process.env.MIX_APP_URL_API,
+                PUBLIC_URL: process.env.MIX_APP_URL_API,
                 params: {
                     user_id: null,
                     created_at: null,
@@ -151,17 +150,12 @@
         },
         methods: {
             logsList(url=null) {
-                let request_headers = {}
-                if(this.$store.state.token !== null) {
-                    request_headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
-                }
-                request_headers['Accept'] = 'application/json'
                 if(url == null) {
                     url = this.API_URL + '/history/list'
                 }
 
                 axios
-                .get(url, {headers: request_headers, params: this.params})
+                .get(url, {params: this.params})
                 .then(response => {
                     if(response.data.result){
                         this.headers = response.data.data.headers;

@@ -4,7 +4,7 @@ require('./bootstrap')
 import '../../src/input.css'
 import App from './components/App.vue'
 import Store from './store'
-import Axios from 'axios'
+import Axios from './axios.js'
 import Router from './router'
 import jwt_decode from 'jwt-decode'
 import FlashMessage from '@smartweb/vue-flash-message';

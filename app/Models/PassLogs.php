@@ -88,6 +88,34 @@ class PassLogs extends Model
         return $result;
     }
 
+    /**
+     * Получние списка логов.
+     *
+     * @return array
+     */
+    public static function createLog(int $user_id, int $is_on_duty, $uploadedFile){
+        
+        return self::create([
+            'user_id' => $user_id,
+            'direction' => !$is_on_duty,
+            'device_id' => request()->input('device_id'),
+            'image_name' => $uploadedFile['fileName'],
+            'image_path' => $uploadedFile['filePath'],
+            'image_size' => $uploadedFile['fileSize']
+        ])->save();
+    }
+
+    /**
+     * Получние списка логов.
+     *
+     * @return array
+     */
+    public static function forceExitAll(): bool{
+
+
+        return true;
+    }
+
     public function scopeUser_id($query, $user_id)
     {
         if (!is_null($user_id)) {

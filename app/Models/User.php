@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Helpers\Headers;
 use App\Helpers\Paginator;
+use App\Helpers\Handbook;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -102,6 +104,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Связь с моделью Positions.
+     *
+     * @return $this
+     */
+    public function positions()
+    {
+        return $this->belongsTo('App\Models\Positions');
+    }
+
+    /**
      * Проверяет проходит ли аутентификацию пользователь с данным паролем.
      *
      * @return array|bool
@@ -120,7 +132,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Получние списка пользователей.
+     * Получение списка пользователей.
      *
      * @return array
      */
@@ -146,7 +158,25 @@ class User extends Authenticatable implements JWTSubject
                 ],
             ];
         }
-        $result['paginator'] = Paginator::get($userList);;
+        $result['paginator'] = Paginator::get($userList);
+        return $result;
+    }
+
+     /**
+     * Получение полей заполнения для создания нового пользователя.
+     *
+     * @return array
+     */
+    public static function getCreateData(): array
+    {
+        $result = array();
+        $fields = Headers::get('user.createData');
+
+        // print_r($fields);exit();
+
+        $fields = Handbook::getHandbooks((array) $fields);
+
+        $result['fields'] = $fields;
         return $result;
     }
 
@@ -167,5 +197,32 @@ class User extends Authenticatable implements JWTSubject
             ];
         }
         return $result;
+    }
+
+    /**
+     * Получние данных о том, находится ли сотрудник на работе.
+     *
+     * @param int user_id
+     * @return int
+     */
+    public static function getIsOnDuty(int $user_id)
+    {
+        return self::select('is_on_duty')->where('id', $user_id)->first()->toArray()['is_on_duty'];
+    }
+
+    /**
+     * Update is_on_duty.
+     *
+     * @param int user_id
+     * @return bool
+     */
+    public static function updateIsOnDuty(int $user_id)
+    {
+        return self::where('id', $user_id)->update(['is_on_duty'=>DB::raw(
+            'CASE 
+                WHEN `is_on_duty`=1 THEN 0
+                WHEN `is_on_duty`=0 THEN 1 
+            END'
+        )]);
     }
 }

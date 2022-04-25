@@ -24,7 +24,7 @@ class IsSuperadmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->roles_id != 1){
+        if($request->user() && $request->user()->roles_id != 1){
             return $this->response->error('You have no permission', 403);
         }
         return $next($request);

@@ -4,6 +4,10 @@
         <div class="px-4 md:px-10 py-4 md:py-7">
             <div class="flex items-center justify-between">
                 <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Список пользователей</p>
+           
+                <div class="flex space-x-2 justify-center">
+                    <router-link :to="PUBLIC_PATH + '/user/create'" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Добавить пользователя</router-link>
+                </div>
             </div>
         </div>
         <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
@@ -74,10 +78,10 @@ export default {
             body: [],
             headers: [],
             paginator: [],
-            MAIN_URL: process.env.MIX_THIS_URL,
-            API_URL: process.env.MIX_THIS_URL_API,
-            PUBLIC_URL: process.env.MIX_THIS_URL_PUBLIC,
-            PUBLIC_PATH: process.env.MIX_THIS_PATH_PUBLIC,
+            MAIN_URL: process.env.MIX_APP_URL,
+            API_URL: process.env.MIX_APP_URL_API,
+            PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
+            PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
             params: {
                 page: null
             },
@@ -89,17 +93,12 @@ export default {
     },
     methods: {
         getUsersList(url=null){
-            let request_headers = {}
-            request_headers['Accept'] = 'application/json'
-            if(this.$store.state.token !== null) {
-                request_headers['Authorization'] = `Bearer ${this.$store.state.token}`
-            }
             if(url == null) {
                 url = this.API_URL + '/user/list'
             }
 
             axios
-            .get(url, {headers: request_headers, params: this.params})
+            .get(url, {params: this.params})
             .then(response => {
                 if(response.data.result){
                     this.headers = response.data.data.headers;

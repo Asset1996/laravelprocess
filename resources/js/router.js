@@ -8,8 +8,9 @@ import Login from './views/Login.vue'
 import LogsList from './views/history/List.vue'
 import UsersList from './views/user/List.vue'
 import TimingList from './views/user/TimingList.vue'
+import CreateUser from './views/user/Create.vue'
 
-const PUBLIC_URL = process.env.MIX_THIS_PATH_PUBLIC
+const PUBLIC_URL = process.env.MIX_APP_PATH_PUBLIC
 
 const routes = [
     {
@@ -33,6 +34,11 @@ const routes = [
     {
         path: PUBLIC_URL + '/user/timings-list/:user_id',
         component:() => import('./views/user/TimingList.vue'),
+        beforeEnter: () => isSuperadmin()
+    },
+    {
+        path: PUBLIC_URL + '/user/create',
+        component:() => import('./views/user/Create.vue'),
         beforeEnter: () => isSuperadmin()
     }
 ]

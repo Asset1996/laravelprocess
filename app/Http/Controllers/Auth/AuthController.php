@@ -5,23 +5,19 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
-use Illuminate\Http\Request;
 use App\Providers\JSONResponseProvider;
-use App\Models\User;
 
 class AuthController extends Controller
 {
-    protected $jsonResponder;
-
     /**
      * Constructor.
-     * @param JSONResponseProvider
+     * 
      * @return void
      */
     public function __construct(JSONResponseProvider $jsonResponder)
     {
         $this->jsonResponder = $jsonResponder;
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('isTokenValid', ['except' => ['login']]);
     }
 
     /**
@@ -29,7 +25,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request, Response $response)
+    public function login(Response $response)
     {
         $credentials = request(['iin', 'password']);
         if (! $token = Auth::attempt($credentials)) {
@@ -47,16 +43,6 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(auth()->user());
-    }
-
-    public function usersList(JSONResponseProvider $response){
-        $usersList = User::getList();
-        return $this->jsonResponder->success($usersList);
-    }
-
-    public function getUsersFioAndId(JSONResponseProvider $response){
-        $usersList = User::getFioAndIdList();
-        return $this->jsonResponder->success($usersList);
     }
 
     /**

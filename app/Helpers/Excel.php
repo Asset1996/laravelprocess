@@ -5,12 +5,49 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\User;
 use App\Models\TimingLogs;
+use \PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class Excel
 {
     protected static $arrayData = array();
     protected static $arrayHeaders = array();
     protected static $arrayBody = array();
+
+    /**
+     * @var array<mixed> Header styles for excel export
+     */
+    protected static $headerStyleArray = [
+        'font' => [
+            'bold' => true,
+        ],
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+                'color' => ['argb' => '00000000'],
+            ],
+        ],
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'color' => [
+                'argb' => '808080',
+            ],
+        ]
+    ];
+
+    /**
+     * @var array<mixed> Data styles for excel export
+     */
+    protected static $bodyStyleArray = [
+        'font' => [
+            'bold' => false,
+        ],
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM,
+                'color' => ['argb' => '00000000'],
+            ],
+        ]
+    ];
 
     /**
      * Exports xls file.
@@ -28,12 +65,20 @@ class Excel
         self::setArrayData($logsHeaders, $logsBody);
 
         $spreadsheet = new Spreadsheet();
-        $spreadsheet->getActiveSheet()
+        $sheet = $spreadsheet->getActiveSheet()
             ->fromArray(
                 self::$arrayData,
                 NULL,
                 'A1'
             );
+        
+        $sheet->getDefaultColumnDimension()->setWidth(150, 'pt');
+
+        $sheet->getStyle('A1:' . Coordinate::stringFromColumnIndex((count($logsHeaders)+1)) . '1' )
+              ->applyFromArray(self::$headerStyleArray);
+
+        $sheet->getStyle('A1:' . (string)$sheet->getCoordinates()[array_key_last($sheet->getCoordinates())])
+              ->applyFromArray(self::$bodyStyleArray);
 
         $fileName = $userInfo->surname . "_" . $userInfo->name . ".xlsx";
 

@@ -52,22 +52,13 @@ import axios from 'axios'
                     iin: "",
                     password: ""
                 },
-                API_URL: process.env.MIX_THIS_URL_API,
-                PUBLIC_URL: process.env.MIX_THIS_URL_API,
+                API_URL: process.env.MIX_APP_URL_API,
+                PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
                 error: false
             }
         },
         methods: {
             login(){
-                console.log('test11')
-                console.log('MIX_THIS_URL', process.env.MIX_THIS_URL)
-                console.log('MIX_THIS_URL_PUBLIC', process.env.MIX_THIS_URL_PUBLIC)
-                console.log('MIX_THIS_URL_API', process.env.MIX_THIS_URL_API)
-
-                console.log('MIX_THIS_PATH', process.env.MIX_THIS_PATH)
-                console.log('MIX_THIS_PATH_PUBLIC', process.env.MIX_THIS_PATH_PUBLIC)
-                console.log('MIX_THIS_PATH_API', process.env.MIX_THIS_PATH_API)
-                console.log('MIX_THIS_PATH_API', process.env.MIX_TYPE)
                 axios
                 .post(this.API_URL + "/auth/login", this.form, {
                     headers: {
@@ -83,7 +74,7 @@ import axios from 'axios'
                             title: 'Успех',
                             text: res.data.message,
                         });
-                        this.$router.push(this.PUBLIC_URL);
+                        this.$router.push(this.PUBLIC_PATH);
                     }else{
                         this.$flashMessage.show({
                             status: 'error',
@@ -92,13 +83,13 @@ import axios from 'axios'
                         });
                     }
                 })
-                .catch(err => {
-                    this.$flashMessage.show({
-                        status: 'error',
-                        title: 'Ошибка',
-                        text: err.response.data.message || 'Ошибка',
-                    });
-                })
+                // .catch(err => {
+                //     this.$flashMessage.show({
+                //         status: 'error',
+                //         title: 'Ошибка',
+                //         text: err || 'Ошибка',
+                //     });
+                // })
             }
         }
     }

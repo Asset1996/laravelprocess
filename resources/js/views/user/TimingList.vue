@@ -161,11 +161,11 @@ export default {
             paginator: [],
             user_id: this.$route.params.user_id,
             user_fio: '',
-            MAIN_URL: process.env.MIX_THIS_URL,
-            API_URL: process.env.MIX_THIS_URL_API,
-            PUBLIC_URL: process.env.MIX_THIS_URL_PUBLIC,
-            PUBLIC_PATH: process.env.MIX_THIS_PATH_PUBLIC,
-            EXPORT_URL: `${process.env.MIX_THIS_URL_API}/user/timings-export/${this.$route.params.user_id}`,
+            MAIN_URL: process.env.MIX_APP_URL,
+            API_URL: process.env.MIX_APP_URL_API,
+            PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
+            PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
+            EXPORT_URL: `${process.env.MIX_APP_URL_API}/user/timings-export/${this.$route.params.user_id}`,
             params: {
                 page: null
             },
@@ -177,17 +177,12 @@ export default {
     },
     methods: {
         getTimingList(url){
-            let request_headers = {}
-            if(this.$store.state.token !== null) {
-                    request_headers['Authorization'] = 'Bearer' + ' ' + this.$store.state.token
-                }
-            request_headers['Accept'] = 'application/json'
             if(url == null) {
                 url = this.API_URL + '/user/timings-list/' + this.user_id
             }
 
             axios
-            .get(url, {headers: request_headers, params: this.params})
+            .get(url, {params: this.params})
             .then(response => {
                 if(response.data.result){
                     this.headers = response.data.data.headers;

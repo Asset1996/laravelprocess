@@ -56,6 +56,142 @@ class Headers
                         'class' => 'uk-table-expand'
                     ],
                 ],
+                'createData' => [
+                    'name' => [
+                        'label' => trans('base.headers.user.createData.name'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'surname' => [
+                        'label' => trans('base.headers.user.createData.surname'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'lastname' => [
+                        'label' => trans('base.headers.user.createData.lastname'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'iin' => [
+                        'label' => trans('base.headers.user.list.iin'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'roles_id' => [
+                        'label' => trans('base.headers.user.createData.roles_id'),
+                        'type' => 'dropdown',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'email' => [
+                        'label' => trans('base.headers.user.createData.email'),
+                        'type' => 'email',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'positions_id' => [
+                        'label' => trans('base.headers.user.createData.positions_id'),
+                        'type' => 'dropdown',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'pin_code' => [
+                        'label' => trans('base.headers.user.createData.pin_code'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'pin_code_repeat' => [
+                        'label' => trans('base.headers.user.createData.pin_code_repeat'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'password' => [
+                        'label' => trans('base.headers.user.createData.password'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                    'password_repeat' => [
+                        'label' => trans('base.headers.user.createData.password_repeat'),
+                        'type' => 'text',
+                        'class' => 'uk-table-expand',
+                        'value' => null
+                    ],
+                ],
+                // 'createData' => [
+                //     [
+                //         'key' => 'name',
+                //         'value' => trans('base.headers.user.createData.name'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'surname',
+                //         'value' => trans('base.headers.user.createData.surname'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'lastname',
+                //         'value' => trans('base.headers.user.createData.lastname'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'iin',
+                //         'value' => trans('base.headers.user.list.iin'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'roles_id',
+                //         'value' => trans('base.headers.user.createData.roles_id'),
+                //         'type' => 'dropdown',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'email',
+                //         'value' => trans('base.headers.user.createData.email'),
+                //         'type' => 'email',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'positions_id',
+                //         'value' => trans('base.headers.user.createData.positions_id'),
+                //         'type' => 'dropdown',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'pin_code',
+                //         'value' => trans('base.headers.user.createData.pin_code'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'pin_code_repeat',
+                //         'value' => trans('base.headers.user.createData.pin_code_repeat'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'password',
+                //         'value' => trans('base.headers.user.createData.password'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                //     [
+                //         'key' => 'password_repeat',
+                //         'value' => trans('base.headers.user.createData.password_repeat'),
+                //         'type' => 'text',
+                //         'class' => 'uk-table-expand'
+                //     ],
+                // ],
                 'timingList' => [
                     [
                         'key' => 'day',

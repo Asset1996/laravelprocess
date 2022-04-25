@@ -19,6 +19,19 @@ return [
                 'is_on_duty' => 'Локация',
                 'DateTime' => 'Время',
             ],
+            'createData' => [
+                'name' => 'Имя',
+                'surname' => 'Фамилия',
+                'lastname' => 'Отчество',
+                'iin' => 'ИИН',
+                'roles_id' => 'Роль',
+                'email' => 'Почта',
+                'positions_id' => 'Позиция',
+                'pin_code' => 'Пин код',
+                'pin_code_repeat' => 'Повторите пин код',
+                'password' => 'Пароль',
+                'password_repeat' => 'Повторите пароль',
+            ],
             'timingList' => [
                 'date' => 'Дата',
                 'time' => 'Часы и минуты'
