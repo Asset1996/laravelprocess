@@ -83,13 +83,13 @@ import axios from 'axios'
                         });
                     }
                 })
-                // .catch(err => {
-                //     this.$flashMessage.show({
-                //         status: 'error',
-                //         title: 'Ошибка',
-                //         text: err || 'Ошибка',
-                //     });
-                // })
+                .catch(err => {
+                    this.$flashMessage.show({
+                        status: 'error',
+                        title: 'Ошибка',
+                        text: err.response.data.message || 'Ошибка',
+                    });
+                })
             }
         }
     }
