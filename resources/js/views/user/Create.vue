@@ -35,12 +35,9 @@ export default {
         this.getFields()
     },
     methods:{
-        getFields(url = null){
-            if(url == null) {
-                url = this.API_URL + '/user/create'
-            }
+        getFields(){
             axios
-            .get(url)
+            .get(this.API_URL + '/user/create')
             .then(response => {
                 if(response.data.result){
                     this.fields = response.data.data.fields;
@@ -60,7 +57,48 @@ export default {
             for (let [key, item] of Object.entries(this.fields)) {
                 sendData[key] = item.value;
             }
-            console.log(sendData);
+            axios
+            .post(this.API_URL + '/user/create', sendData, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(res => {
+                console.log(res)
+                if(res.data.result){
+                    this.$flashMessage.show({
+                        status: 'success',
+                        title: 'Успех',
+                        text: res.data.message,
+                    });
+                    this.$router.push(this.PUBLIC_PATH);
+                }else{
+                console.log('inner')
+                    this.$flashMessage.show({
+                        status: 'error',
+                        title: 'Ошибка',
+                        text: err.response.data.message || 'Ошибка',
+                    });
+                }
+            })
+            .catch(err => {
+                console.log('status: ', err.response.data.errors)
+                if(err.response.status == 422){
+                    for (let [key, value] of Object.entries(err.response.data.errors)) {
+                        this.$flashMessage.show({
+                            status: 'error',
+                            title: 'Ошибка валидации',
+                            text: value || 'Ошибка',
+                        });
+                    }
+                }else{
+                    this.$flashMessage.show({
+                        status: 'error',
+                        title: 'Ошибка',
+                        text: err.response.data.message || 'Ошибка',
+                    });
+                }
+            })
             
         }
     }

@@ -105,7 +105,7 @@ class Headers
                         'class' => 'uk-table-expand',
                         'value' => null
                     ],
-                    'pin_code_repeat' => [
+                    'pin_code_confirmation' => [
                         'label' => trans('base.headers.user.createData.pin_code_repeat'),
                         'type' => 'text',
                         'class' => 'uk-table-expand',
@@ -117,7 +117,7 @@ class Headers
                         'class' => 'uk-table-expand',
                         'value' => null
                     ],
-                    'password_repeat' => [
+                    'password_confirmation' => [
                         'label' => trans('base.headers.user.createData.password_repeat'),
                         'type' => 'text',
                         'class' => 'uk-table-expand',

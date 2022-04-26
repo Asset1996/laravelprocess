@@ -10,11 +10,12 @@ class JSONResponseProvider
      *
      * @return JSON
      */
-    public function success(array $data = [], int $statusCode = 200)
+    public function success(array $data = [], string $message = '', int $statusCode = 200)
     {
         return response()->json([
             'result' => True,
             'data' => $data,
+            'message' => $message,
             'code' => $statusCode
         ], $statusCode);
     }

@@ -81,8 +81,7 @@ class AuthController extends Controller
     {
         return $response->setContent([
             'result' => True, 
-            'message' => 
-            'Successfully logged in.', 
+            'message' => 'Successfully logged in.', 
             'code' => 200
         ])->withHeaders([
             'X-Auth' => $token,

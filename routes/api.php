@@ -39,9 +39,12 @@ Route::group([
         ->whereNumber('user_id')
         ->name('exportExcellTimings');
     
-    Route::any('/create', [UserController::class, 'createUser'])
+    Route::post('/create', [UserController::class, 'createUserPost'])
         ->middleware('IsSuperadmin')
-        ->name('createUser');
+        ->name('createUserPost');
+    Route::get('/create', [UserController::class, 'createUserGet'])
+        ->middleware('IsSuperadmin')
+        ->name('createUserGet');
     
     Route::prefix('cron')->group(function () {
         Route::post('exit', [PassController::class, 'cronExitAll'])

@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'surname',
         'lastname',
         'roles_id',
+        'positions_id',
         'email',
         'password',
         'pin_code',
@@ -78,7 +79,7 @@ class User extends Authenticatable implements JWTSubject
     public function rules()
     {
         return [
-            'password' => 'required',
+            'password' => 'required|min:6',
         ];
     }
 
@@ -162,7 +163,7 @@ class User extends Authenticatable implements JWTSubject
         return $result;
     }
 
-     /**
+    /**
      * Получение полей заполнения для создания нового пользователя.
      *
      * @return array
@@ -178,6 +179,16 @@ class User extends Authenticatable implements JWTSubject
 
         $result['fields'] = $fields;
         return $result;
+    }
+
+    /**
+     * Создает новый пользователь в БД.
+     *
+     * @return array
+     */
+    public static function createUser(array $data){
+        self::create($data);
+        return True;
     }
 
     /**

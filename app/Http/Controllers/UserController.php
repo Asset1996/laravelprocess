@@ -3,6 +3,9 @@ namespace App\Http\Controllers;
 
 use App\Providers\JSONResponseProvider;
 use App\Models\User;
+use App\Http\Requests\User\CreateUserRequest;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,17 +44,25 @@ class UserController extends Controller
     /**
      * Создает нового пользователя в БД.
      * 
+     * @param CreateUserRequest $request - validated request
      * @return JSONResponseProvider jsonResponder
      */
-    public function createUser(){
-        $method = request()->method();
-        if($method == "GET"){
-            $data = User::getCreateData();
-            return $this->jsonResponder->success($data);
-        }elseif($method == "POST"){
-            echo 'post'; exit();
-        }else{
-            return $this->jsonResponder->error('Method not allowed', 405);
-        }
+    public function createUserGet(){
+        $data = User::getCreateData();
+        return $this->jsonResponder->success($data);
+    }
+
+    /**
+     * Создает нового пользователя в БД.
+     * 
+     * @param CreateUserRequest $request - validated request
+     * @return JSONResponseProvider jsonResponder
+     */
+    public function createUserPost(CreateUserRequest $request){
+        $validated = $request->validated();
+        // print_r($validated);
+        // exit();
+        $result = User::createUser($validated);
+        return $this->jsonResponder->success([], 'Пользователь добавлен.');
     }
 }
