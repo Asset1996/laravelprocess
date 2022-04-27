@@ -47,7 +47,7 @@ Route::group([
         ->name('createUserGet');
     
     Route::prefix('cron')->group(function () {
-        Route::post('exit', [PassController::class, 'cronExitAll'])
+        Route::get('exit', [PassController::class, 'cronExitAll'])
             ->name('cronForceExit');
     });
 });
