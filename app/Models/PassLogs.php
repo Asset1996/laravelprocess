@@ -86,10 +86,10 @@ class PassLogs extends Model
                     'key' => $log['direction'],
                     'value' => trans('base.direction.'.(string)$log['direction'])
                 ],
-                'device_id' => [
+                'device_id' => isset($log['device']) ? [
                     'key' => $log['device']['id'],
                     'value' => $log['device']['location'],
-                ],
+                ] : '',
                 'iin' => $log['user']['iin'],
                 'fio' => $log['user']['name'] . ' ' . $log['user']['surname'],
                 'roles_id' => $log['user']['roles_id'],
