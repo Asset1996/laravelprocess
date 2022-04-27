@@ -45,15 +45,16 @@ class TimingLogs extends Model
             // ->skip(1)
             ->first();
             
-            if($lastLogForToday->created_at){
-                $created_at = Carbon::parse($lastLogForToday->created_at);
-                $minutes = $created_at->diffInMinutes(Carbon::now());
+            if(!empty($lastLogForToday)){
+                if($lastLogForToday->created_at){
+                    $created_at = Carbon::parse($lastLogForToday->created_at);
+                    $minutes = $created_at->diffInMinutes(Carbon::now());
+                }
+                return self::updateOrCreate(
+                    ['day' => date('Y:m:d'), 'user_id' => $user_id],
+                    ['minutes' => DB::raw('minutes + ' . (string)($minutes+1))]
+                );
             }
-
-            return self::updateOrCreate(
-                ['day' => date('Y:m:d'), 'user_id' => $user_id],
-                ['minutes' => DB::raw('minutes + ' . (string)($minutes+1))]
-            );
         }
         return True;
     }
