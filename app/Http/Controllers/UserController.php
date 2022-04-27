@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function createUserPost(CreateUserRequest $request){
         $validated = $request->validated();
-        $result = User::createUser($validated);
+        User::createUser($validated);
         return $this->jsonResponder->success([], 'Пользователь добавлен.');
     }
 }
