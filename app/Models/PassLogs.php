@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Headers;
 use App\Helpers\Paginator;
+use App\Models\Device;
 
 class PassLogs extends Model
 {
@@ -29,7 +30,6 @@ class PassLogs extends Model
     public function rules()
     {
         return [
-            'photo' => 'required',
             'user_id' => 'required',
         ];
     }
@@ -50,6 +50,16 @@ class PassLogs extends Model
     }
 
     /**
+     * Связь с моделью Device.
+     *
+     * @return $this
+     */
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id');
+    }
+
+    /**
      * Получние списка логов.
      *
      * @return array
@@ -58,7 +68,7 @@ class PassLogs extends Model
     {
         $result = array();
         
-        $logs = self::with('user.roles')
+        $logs = self::with('user.roles')->with('device')
             ->user_id(request()->user_id)
             ->created_at(request()->created_at)
             ->orderBy('created_at', 'desc')
@@ -75,6 +85,10 @@ class PassLogs extends Model
                 'direction' => [
                     'key' => $log['direction'],
                     'value' => trans('base.direction.'.(string)$log['direction'])
+                ],
+                'device_id' => [
+                    'key' => $log['device']['id'],
+                    'value' => $log['device']['location'],
                 ],
                 'iin' => $log['user']['iin'],
                 'fio' => $log['user']['name'] . ' ' . $log['user']['surname'],
@@ -130,16 +144,16 @@ class PassLogs extends Model
         return true;
     }
 
-    /**
-     * Получние списка логов.
-     *
-     * @return array
-     */
-    public static function forceExitAll(): bool{
+    // /**
+    //  * Получние списка логов.
+    //  *
+    //  * @return array
+    //  */
+    // public static function forceExitAll(): bool{
 
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public function scopeUser_id($query, $user_id)
     {

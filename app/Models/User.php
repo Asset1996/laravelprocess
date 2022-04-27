@@ -144,7 +144,7 @@ class User extends Authenticatable implements JWTSubject
     public static function getList(): array
     {
         $result = array();
-        $userList = User::with('roles')->paginate($_ENV['PAGE_NUM']);
+        $userList = User::with('roles', 'positions')->paginate($_ENV['PAGE_NUM']);
 
         $result['headers'] = Headers::get('user.list');
 
@@ -156,6 +156,10 @@ class User extends Authenticatable implements JWTSubject
                 'role' => [
                     'key' => $user['roles_id'],
                     'value' => $user['roles']['title']
+                ],
+                'position' => [
+                    'key' => $user['positions_id'],
+                    'value' => $user['positions']['title']
                 ],
                 'is_on_duty' => [
                     'key' => $user['is_on_duty'],

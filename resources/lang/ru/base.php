@@ -7,6 +7,7 @@ return [
                 'Full Name' => 'ФИО',
                 'Action' => 'Действие',
                 'Photo' => 'Фото',
+                'device_id' => 'Местоположение',
                 'DateTime' => 'Время',
             ]
         ],
@@ -17,6 +18,7 @@ return [
                 'iin' => 'ИИН',
                 'role' => 'Роль',
                 'is_on_duty' => 'Локация',
+                'position' => 'Позиция',
                 'DateTime' => 'Время',
             ],
             'createData' => [

@@ -51,6 +51,11 @@ class Headers
                         'class' => 'uk-table-expand'
                     ],
                     [
+                        'key' => 'position',
+                        'value' => trans('base.headers.user.list.position'),
+                        'class' => 'uk-table-expand'
+                    ],
+                    [
                         'key' => 'is_on_duty',
                         'value' => trans('base.headers.user.list.is_on_duty'),
                         'class' => 'uk-table-expand'
@@ -221,6 +226,11 @@ class Headers
                         'key' => 'image_path',
                         'value' => trans('base.headers.passLogs.list.Photo'),
                         'class' => 'uk-width-small'
+                    ],
+                    [
+                        'key' => 'device_id',
+                        'value' => trans('base.headers.passLogs.list.device_id'),
+                        'class' => 'uk-table-shrink uk-text-nowrap'
                     ],
                     [
                         'key' => 'created_at',
