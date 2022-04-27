@@ -28,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'surname',
         'lastname',
         'roles_id',
+        'photo',
         'positions_id',
         'email',
         'password',
@@ -67,7 +68,9 @@ class User extends Authenticatable implements JWTSubject
             'iin' => $this->iin,
             'name' => $this->name,
             'surname' => $this->surname,
+            'photo' => $this->photo,
             'roles_id' => $this->roles_id,
+            'positions_id' => $this->positions_id,
             'email' => $this->email,
         ];
     }
@@ -211,6 +214,17 @@ class User extends Authenticatable implements JWTSubject
             ];
         }
         return $result;
+    }
+
+    /**
+     * Получние ФИО и ID пользователя по ID.
+     *
+     * @return string
+     */
+    public static function getFioById(int $user_id): string
+    {
+        $user = User::select('name', 'surname')->where('id', $user_id)->first();
+        return $user['name'] . ' ' . $user['surname'];
     }
 
     /**

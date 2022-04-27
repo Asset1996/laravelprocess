@@ -26,7 +26,9 @@ const store = createStore({
         user = {
           name: payload['name'] || '',
           surname: payload['surname'] || '',
-          roles_id: payload['roles_id'] || ''
+          roles_id: payload['roles_id'] || '',
+          photo: payload['photo'] || '',
+          positions_id: payload['positions_id'] || ''
         }
         state.userData = user
         localStorage.setItem('userData', JSON.stringify(user))

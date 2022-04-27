@@ -4,10 +4,10 @@
     <a href="#!">
       <div class="flex items-center">
         <div class="shrink-0">
-          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-full w-10" alt="Avatar">
+          <img :src="photo_url" class="rounded-full w-10" alt="Avatar">
         </div>
         <div class="grow ml-3">
-          <p class="text-sm font-semibold text-blue-600">{{ getNameAndRole }}</p>
+          <p class="text-sm font-semibold text-blue-600">{{ user_name }}</p>
         </div>
       </div>
     </a>
@@ -45,7 +45,15 @@ import axios from 'axios';
                         'title': 'TEST',
                         'href': process.env.MIX_APP_PATH_PUBLIC + '/test/'
                     }
-                }
+                },
+                photo_url: '',
+                user_name: '',
+            }
+        },
+        mounted(){
+            if (this.$store.state.userData){
+                this.photo_url = process.env.MIX_APP_PATH + this.$store.state.userData['photo']
+                this.user_name = this.$store.state.userData['name']
             }
         },
         computed: {
@@ -55,14 +63,7 @@ import axios from 'axios';
                 }else{
                     return true;
                 }
-            },
-            getNameAndRole(){
-                if (this.$store.state.userData){
-                    return this.$store.state.userData['name'];
-                }else{
-                    return false;
-                }
-            },
+            }
         }
     }
 </script>

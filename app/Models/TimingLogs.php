@@ -52,7 +52,7 @@ class TimingLogs extends Model
 
             return self::updateOrCreate(
                 ['day' => date('Y:m:d'), 'user_id' => $user_id],
-                ['minutes' => DB::raw('minutes + ' . $minutes)]
+                ['minutes' => DB::raw('minutes + ' . (string)($minutes+1))]
             );
         }
         return True;
@@ -90,7 +90,7 @@ class TimingLogs extends Model
             // echo "MIN: " . $minutes . "; ";
             self::updateOrCreate(
                 ['day' => date('Y:m:d'), 'user_id' => $value->user_id],
-                ['minutes' => DB::raw('minutes + ' . $minutes)]
+                ['minutes' => DB::raw('minutes + ' . (string)($minutes+1))]
             );
         }
 
@@ -115,6 +115,7 @@ class TimingLogs extends Model
             ];
         }
         $result['paginator'] = Paginator::get($timingList);
+        $result['userFio'] = User::getFioById($user_id);
         return $result;
     }
 

@@ -3,7 +3,7 @@
     <div class="sm:px-6 w-full">
         <div class="px-4 md:px-10 py-4 md:py-7">
             <div class="flex items-center justify-between">
-                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">USER FIO</p>
+                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">{{user_fio}}</p>
                 <div class="flex justify-center">
                     <div class="dropdown relative">
                     <button
@@ -127,7 +127,6 @@
                                 </td>
                             </template>
                         </tr>
-                        
                     </tbody>
                 </table>
             </div>
@@ -161,10 +160,8 @@ export default {
             paginator: [],
             user_id: this.$route.params.user_id,
             user_fio: '',
-            MAIN_URL: process.env.MIX_APP_URL,
             API_URL: process.env.MIX_APP_URL_API,
             PUBLIC_URL: process.env.MIX_APP_URL_PUBLIC,
-            PUBLIC_PATH: process.env.MIX_APP_PATH_PUBLIC,
             EXPORT_URL: `${process.env.MIX_APP_URL_API}/user/timings-export/${this.$route.params.user_id}`,
             params: {
                 page: null
@@ -180,7 +177,6 @@ export default {
             if(url == null) {
                 url = this.API_URL + '/user/timings-list/' + this.user_id
             }
-
             axios
             .get(url, {params: this.params})
             .then(response => {
@@ -193,15 +189,14 @@ export default {
                     }else{
                         this.page_limit = 0
                     }
-                    let payload = this.$jwt_decode(this.$store.state.token)
-                    this.user_fio = payload.surname + ' ' + payload.name
+                    this.user_fio = response.data.data.userFio;
                 }
             })
             .catch(error => {
                 this.$flashMessage.show({
                     status: 'error',
                     title: 'Ошибка',
-                    text: err.response.data.message || 'Ошибка',
+                    text: error.response.data.message || 'Ошибка',
                 });
                 this.$router.push(this.PUBLIC_URL)
             })
