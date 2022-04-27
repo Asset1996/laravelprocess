@@ -53,7 +53,7 @@ class PassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \App\Helpers\JSONResponseProvider
      */
-    public function takePicture(Request $request, User $user, JSONResponseProvider $response){
+    public function takePicture(Request $request, JSONResponseProvider $response){
         
         $validator = Validator::make($request->all(), [
             'uid' => [
@@ -88,5 +88,18 @@ class PassController extends Controller
             'message' => 'Logs are saved successfully.',
             'is_on_duty' => (bool) !$is_on_duty
         ]);
+    }
+
+    public function cronExitAll(Request $request, JSONResponseProvider $response){
+        $allNotOutUsers = array();
+        $allNotOutUsers = User::getNotOutUsers();
+        
+        if(!empty($allNotOutUsers)){
+            User::updateIsOnDutyForAll();
+            TimingLogs::recordForAll((array) $allNotOutUsers);
+            PassLogs::createLogForAll((array) $allNotOutUsers);
+        }
+
+        return $response->success([], 'Successfully processed.'); 
     }
 }

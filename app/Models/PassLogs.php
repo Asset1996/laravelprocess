@@ -89,7 +89,7 @@ class PassLogs extends Model
     }
 
     /**
-     * Получние списка логов.
+     * Создание лога.
      *
      * @return array
      */
@@ -103,6 +103,31 @@ class PassLogs extends Model
             'image_path' => $uploadedFile['filePath'],
             'image_size' => $uploadedFile['fileSize']
         ])->save();
+    }
+
+    /**
+     * Создание логов для всех сотрудников, которые забыли сделать выход.
+     *
+     * @return bool
+     */
+    public static function createLogForAll(array $user_ids){
+        
+        $uploadedFile = [
+            'fileName' => 'SystemOut.jpeg',
+            'filePath' => '/public/passphotos/SystemOut.jpeg',
+            'fileSize' => 4000
+        ];
+        foreach ($user_ids as $user_id) {
+            self::create([
+                'user_id' => $user_id,
+                'direction' => 0,
+                'device_id' => 'CRON',
+                'image_name' => $uploadedFile['fileName'],
+                'image_path' => $uploadedFile['filePath'],
+                'image_size' => $uploadedFile['fileSize']
+            ])->save();
+        }
+        return true;
     }
 
     /**

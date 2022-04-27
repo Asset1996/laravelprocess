@@ -59,6 +59,45 @@ class TimingLogs extends Model
     }
 
     /**
+     * По окончанию рабоче дня, отработанные часы отсанавливаются.
+     *
+     * @var array<int, string>
+     */
+    public static function recordForAll(array $user_id){
+
+        $minutes = 0;
+
+        $lastLogForToday = DB::table(DB::raw('pass_logs as pl1'))
+            ->join(
+                DB::raw("(SELECT user_id as uid, MAX(created_at) AS created
+                    FROM pass_logs
+                    WHERE direction=1
+                    GROUP BY user_id) as pl2"), 
+                function($query){
+                    $query->on('pl1.user_id', '=', 'pl2.uid')
+                        ->on('pl1.created_at', '=', 'pl2.created');
+                }
+            )
+            ->whereIn('user_id', $user_id)
+            ->get();
+
+        
+        foreach ($lastLogForToday as $value) {
+            if($value->created_at){
+                $created_at = Carbon::parse($value->created_at);
+                $minutes = $created_at->diffInMinutes(Carbon::now());
+            }
+            // echo "MIN: " . $minutes . "; ";
+            self::updateOrCreate(
+                ['day' => date('Y:m:d'), 'user_id' => $value->user_id],
+                ['minutes' => DB::raw('minutes + ' . $minutes)]
+            );
+        }
+
+        return True;
+    }
+
+    /**
      * Получние списка информации о времени пребывание на работе.
      *  
      * @param int user_id - ID пользователя

@@ -225,6 +225,33 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Update is_on_duty for all staff after work hours passed.
+     *
+     * @param int user_id
+     * @return bool
+     */
+    public static function updateIsOnDutyForAll()
+    {
+        return self::where('roles_id', '<>', 3)->update(['is_on_duty'=>0]);
+    }
+
+    /**
+     * Получние списка тех сотрудников, которые забыли выйти после 18:00.
+     *
+     * @param int user_id
+     * @return int
+     */
+    public static function getNotOutUsers()
+    {
+        return self::select('id')
+            ->where('is_on_duty', 1)
+            ->where('roles_id', '<>', 3)
+            ->get()
+            ->pluck('id')
+            ->toArray();
+    }
+
+    /**
      * Update is_on_duty.
      *
      * @param int user_id
