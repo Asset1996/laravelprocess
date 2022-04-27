@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, key) in body" v-bind:key="key" tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                            <td>{{ key + 1 }}</td>
+                            <td>{{ key + page_limit + 1 }}</td>
                             <template v-for="(header, hKey) in headers" :key="hKey">
                                 <td>
                                     <template v-if="isObject(item[header.key])">
