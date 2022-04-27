@@ -125,7 +125,7 @@ export default {
         },
         setParam(key, val){
             this.params[key] = val;
-            this.logsList()
+            this.getUsersList()
         }
     }
 }
