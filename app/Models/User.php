@@ -8,6 +8,7 @@ use App\Helpers\Headers;
 use App\Helpers\Paginator;
 use App\Helpers\Handbook;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -187,6 +188,8 @@ class User extends Authenticatable implements JWTSubject
      * @return array
      */
     public static function createUser(array $data){
+        $data['pin_code'] = Hash::make($data['pin_code']);
+        $data['password'] = Hash::make($data['password']);
         self::create($data);
         return True;
     }
