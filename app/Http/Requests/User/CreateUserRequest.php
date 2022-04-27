@@ -55,7 +55,7 @@ class CreateUserRequest extends FormRequest
             'iin' => 'required|unique:user|min:12|max:12|',
             'name' => 'required|string|max:50',
             'surname' => 'required|string|max:50',
-            'lastname' => 'string|max:50',
+            'lastname' => 'max:50',
             'roles_id' => 'integer|required|max:4',
             'positions_id' => 'integer',
             'email' => 'required|unique:user|email|min:6|max:255',
