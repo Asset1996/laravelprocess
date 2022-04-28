@@ -12,32 +12,26 @@ return [
             ]
         ],
         'user' => [
-            'list' => [
-                'No' => 'No',
-                'Full Name' => 'ФИО',
-                'iin' => 'ИИН',
-                'role' => 'Роль',
-                'is_on_duty' => 'Локация',
-                'position' => 'Позиция',
-                'DateTime' => 'Время',
-            ],
-            'createData' => [
-                'name' => 'Имя',
-                'surname' => 'Фамилия',
-                'lastname' => 'Отчество',
-                'iin' => 'ИИН',
-                'roles_id' => 'Роль',
-                'email' => 'Почта',
-                'positions_id' => 'Позиция',
-                'pin_code' => 'Пин код',
-                'pin_code_repeat' => 'Повторите пин код',
-                'password' => 'Пароль',
-                'password_repeat' => 'Повторите пароль',
-            ],
-            'timingList' => [
-                'date' => 'Дата',
-                'time' => 'Часы и минуты'
-            ]
+            'No' => 'No',
+            'Full Name' => 'ФИО',
+            'iin' => 'ИИН',
+            'role' => 'Роль',
+            'roles_id' => 'Роль',
+            'is_on_duty' => 'Локация',
+            'position' => 'Позиция',
+            'DateTime' => 'Время',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'lastname' => 'Отчество',
+            'email' => 'Почта',
+            'positions_id' => 'Позиция',
+            'pin_code' => 'Пин код',
+            'pin_code_confirmation' => 'Повторите пин код',
+            'password' => 'Пароль',
+            'password_confirmation' => 'Повторите пароль',
+            'date' => 'Дата',
+            'time' => 'Часы и минуты',
+            'photo' => 'Фото',
         ]
     ],
     "direction" => [

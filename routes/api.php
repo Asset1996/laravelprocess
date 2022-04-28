@@ -26,11 +26,29 @@ Route::group([
 Route::group([
     'prefix' => 'user'
 ], function() {
+    /**
+     * CRUD
+     */
     Route::get('/list', [UserController::class, 'usersList'])
         ->middleware('IsSuperadmin')
         ->name('usersList');
-    Route::get('/fio-and-id-list', [UserController::class, 'getUsersFioAndId'])
-        ->name('usersList');
+    Route::post('/create', [UserController::class, 'createUserPost'])
+        ->middleware('IsSuperadmin')
+        ->name('createUserPost');
+    Route::get('/create', [UserController::class, 'createUserGet'])
+        ->middleware('IsSuperadmin')
+        ->name('createUserGet');
+    
+    /**
+     * PERSONAL
+     */
+    Route::prefix('/profile')->group(function(){
+        Route::get('', [UserController::class, 'profile'])->name('getProfile');
+    });
+
+    /**
+     * TIMINGS
+     */
     Route::get('/timings-list/{user_id}', [TimingLogsController::class, 'timingsList'])
         ->middleware('IsSuperadmin')
         ->whereNumber('user_id')
@@ -39,13 +57,15 @@ Route::group([
         ->whereNumber('user_id')
         ->name('exportExcellTimings');
     
-    Route::post('/create', [UserController::class, 'createUserPost'])
-        ->middleware('IsSuperadmin')
-        ->name('createUserPost');
-    Route::get('/create', [UserController::class, 'createUserGet'])
-        ->middleware('IsSuperadmin')
-        ->name('createUserGet');
+    /**
+     * OTHERS
+     */
+    Route::get('/fio-and-id-list', [UserController::class, 'getUsersFioAndId'])
+        ->name('usersList');
     
+    /**
+     * CRONES
+     */
     Route::prefix('cron')->group(function () {
         Route::get('exit', [PassController::class, 'cronExitAll'])
             ->name('cronForceExit');

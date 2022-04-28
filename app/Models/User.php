@@ -172,6 +172,58 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Получение данных о профиле.
+     *
+     * @return array
+     */
+    public static function getProfile(): array
+    {
+        $result = array();
+        $user = User::with('roles', 'positions')->where('id', auth()->user()->id)->first();
+
+        
+        $result['body'] = [
+            [
+                'key' => 'fio',
+                'value' => $user['name'] . ' ' . $user['surname'],
+                'label' => trans('base.headers.user.Full Name'),
+            ],
+            [
+                'key' => 'iin',
+                'value' => $user['iin'],
+                'label' => trans('base.headers.user.iin'),
+            ],
+            [
+                'key' => 'email',
+                'value' => $user['email'],
+                'label' => trans('base.headers.user.email'),
+            ],
+            [
+                'key' => 'roles_id',
+                'value' => $user['roles']['title'],
+                'label' => trans('base.headers.user.roles_id')
+            ],
+            [
+                'key' => 'positions_id',
+                'value' => $user['positions']['title'],
+                'label' => trans('base.headers.user.positions_id')
+            ],
+            [
+                'key' => 'is_on_duty',
+                'value' => trans('base.is_on_duty.'.(string)$user['is_on_duty']),
+                'label' => trans('base.headers.user.is_on_duty')
+            ],
+        ];
+        $result['user'] = [
+            'fio' => $user['name'] . ' ' . $user['surname'],
+            'position' => $user['positions']['title'],
+            'photo' => $user['photo'],
+        ];
+        
+        return $result;
+    }
+
+    /**
      * Получение полей заполнения для создания нового пользователя.
      *
      * @return array

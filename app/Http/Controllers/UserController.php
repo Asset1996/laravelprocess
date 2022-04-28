@@ -32,6 +32,16 @@ class UserController extends Controller
     }
 
     /**
+     * Профиль текущего пользователя.
+     * 
+     * @return JSONResponseProvider jsonResponder
+     */
+    public function profile(){
+        $user = User::getProfile();
+        return $this->jsonResponder->success($user);
+    }
+
+    /**
      * Извлекает список ID и ФИО пользователей.
      * 
      * @return JSONResponseProvider jsonResponder

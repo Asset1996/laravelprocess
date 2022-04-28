@@ -9,6 +9,7 @@ import LogsList from './views/history/List.vue'
 import UsersList from './views/user/List.vue'
 import TimingList from './views/user/TimingList.vue'
 import CreateUser from './views/user/Create.vue'
+import ProfileIndex from './views/user/profile/Index.vue'
 
 const PUBLIC_URL = process.env.MIX_APP_PATH_PUBLIC
 
@@ -20,6 +21,10 @@ const routes = [
     {
         path: PUBLIC_URL + '/login',
         component:() => import('./views/Login.vue')
+    },
+    {
+        path: PUBLIC_URL + '/user/profile',
+        component:() => import('./views/user/profile/Index.vue')
     },
     {
         path: PUBLIC_URL + '/history/list',

@@ -88,7 +88,6 @@ class TimingLogs extends Model
                 $created_at = Carbon::parse($value->created_at);
                 $minutes = $created_at->diffInMinutes(Carbon::now());
             }
-            // echo "MIN: " . $minutes . "; ";
             self::updateOrCreate(
                 ['day' => date('Y:m:d'), 'user_id' => $value->user_id],
                 ['minutes' => DB::raw('minutes + ' . (string)($minutes+1))]
@@ -120,6 +119,13 @@ class TimingLogs extends Model
         return $result;
     }
 
+    /**
+     * Минуты конвертирует в чч:мм.
+     *  
+     * @param int time - время в минутах
+     * @param string format
+     * @return string
+     */
     protected static function convertToHoursMins($time, $format = '%02dч:%02dм') {
         if ($time < 1) {
             return;
