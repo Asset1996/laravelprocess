@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 use App\Providers\JSONResponseProvider;
 use App\Models\User;
 use App\Http\Requests\User\CreateUserRequest;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,16 +27,6 @@ class UserController extends Controller
     public function usersList(){
         $usersList = User::getList();
         return $this->jsonResponder->success($usersList);
-    }
-
-    /**
-     * Профиль текущего пользователя.
-     * 
-     * @return JSONResponseProvider jsonResponder
-     */
-    public function profile(){
-        $user = User::getProfile();
-        return $this->jsonResponder->success($user);
     }
 
     /**

@@ -24,11 +24,11 @@ const store = createStore({
       setUserData (state, payload){
         let user = [];
         user = {
-          name: payload['name'] || '',
-          surname: payload['surname'] || '',
-          roles_id: payload['roles_id'] || '',
-          photo: payload['photo'] || '',
-          positions_id: payload['positions_id'] || ''
+          name: payload['name'] || JSON.parse(localStorage.getItem('userData')).name || '',
+          surname: payload['surname'] || JSON.parse(localStorage.getItem('userData')).surname || '',
+          roles_id: payload['roles_id'] || JSON.parse(localStorage.getItem('userData')).roles_id || '',
+          photo: payload['photo'] || JSON.parse(localStorage.getItem('userData')).photo || '',
+          positions_id: payload['positions_id'] || JSON.parse(localStorage.getItem('userData')).positions_id || ''
         }
         state.userData = user
         localStorage.setItem('userData', JSON.stringify(user))

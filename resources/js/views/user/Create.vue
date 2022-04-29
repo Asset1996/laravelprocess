@@ -64,7 +64,6 @@ export default {
                 }
             })
             .then(res => {
-                console.log(res)
                 if(res.data.result){
                     this.$flashMessage.show({
                         status: 'success',
@@ -73,16 +72,14 @@ export default {
                     });
                     this.$router.push(this.PUBLIC_PATH);
                 }else{
-                console.log('inner')
                     this.$flashMessage.show({
                         status: 'error',
                         title: 'Ошибка',
-                        text: err.response.data.message || 'Ошибка',
+                        text: 'Ошибка',
                     });
                 }
             })
             .catch(err => {
-                console.log('status: ', err.response.data.errors)
                 if(err.response.status == 422){
                     for (let [key, value] of Object.entries(err.response.data.errors)) {
                         this.$flashMessage.show({

@@ -2,9 +2,7 @@
 
 namespace App\Helpers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\PassLogs;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,6 +38,26 @@ class Uploader
         ];
     }
 
+    /**
+     * Saves document from form data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string $filePath
+     */
+    public function saveFile(){
+
+        $userId = auth()->user()->id;
+        $fileName = time().'_'.request()->file->getClientOriginalName();
+        $filePath = '/public/storage/' . request()->file('file')->storeAs('avatars/'.$userId, $fileName, 'public');
+        return $filePath;
+    }
+
+    /**
+     * Return the first error during upload.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string
+     */
     public function getFirstError(){
         return $this->errors[0];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\PassController;
 use App\Http\Controllers\PassLogsController;
 use App\Http\Controllers\TimingLogsController;
+use App\Http\Controllers\ProfileController;
 
 Route::group([
     'prefix' => 'auth'
@@ -43,7 +44,8 @@ Route::group([
      * PERSONAL
      */
     Route::prefix('/profile')->group(function(){
-        Route::get('', [UserController::class, 'profile'])->name('getProfile');
+        Route::get('', [ProfileController::class, 'profile'])->name('getProfile');
+        Route::post('/upload', [ProfileController::class, 'uploadPhoto'])->name('profileUploadPhoto');
     });
 
     /**

@@ -336,4 +336,17 @@ class User extends Authenticatable implements JWTSubject
             END'
         )]);
     }
+
+     /**
+     * Update photo.
+     *
+     * @param string filePath
+     * @return bool
+     */
+    public static function updatePhoto(string $filePath)
+    {
+        $user = User::find(auth()->user()->id);
+        $user->photo = $filePath;
+        return $user->save();
+    }
 }
