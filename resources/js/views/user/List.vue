@@ -1,57 +1,45 @@
 <template>
+    <!-- header -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div>Список пользователей</div>
+            <div class="d-flex"><router-link :to="PUBLIC_PATH + '/user/create'" type="button" class="primary-button">Добавить пользователя</router-link></div>
+        </div>
+    </nav>
     <!-- component -->
-    <div class="sm:px-6 w-full">
-        <div class="px-4 md:px-10 py-4 md:py-7">
-            <div class="flex items-center justify-between">
-                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Список пользователей</p>
-           
-                <div class="flex space-x-2 justify-center">
-                    <router-link :to="PUBLIC_PATH + '/user/create'" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Добавить пользователя</router-link>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
-            <div class="mt-7 overflow-x-auto">
-                <table class="w-full whitespace-nowrap">
-                    <thead>
-                        <tr tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                            <th class="uk-table-shrink">No</th>
-                            <th v-for="header in headers" v-bind:key="header.id" class="uk-table-shrink" :class="header.class">
-                                {{header.value}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, key) in body" v-bind:key="key" tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                            <td>{{ key + page_limit + 1 }}</td>
-                            <template v-for="(header, hKey) in headers" :key="hKey">
-                                <td>
-                                    <template v-if="isObject(item[header.key])">
-                                        <template v-if="item[header.key].key == 0">
-                                            <button class="py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded">{{ item[header.key].value }}</button>
-                                        </template>
-                                        <template v-else>
-                                            <button class="py-3 px-3 text-sm focus:outline-none leading-none text-black-700 bg-green-100 rounded">{{ item[header.key].value }}</button>
-                                        </template>
-                                    </template>
-                                    <template v-else>
-                                        <template v-if="header.key == 'fio'">
-                                        
-                                            <router-link :to="PUBLIC_PATH+'/user/timings-list/'+item['id']">{{ item[header.key] }}</router-link>
-                                        </template>
-                                        <template v-else>
-                                            {{ item[header.key] }}
-                                        </template>
-                                    </template>
-                                </td>
+    <table class="table table-hover">
+        <thead>
+            <tr tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
+                <th class="uk-table-shrink">No</th>
+                <th v-for="header in headers" v-bind:key="header.id" class="uk-table-shrink" :class="header.class">
+                    {{header.value}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, key) in body" v-bind:key="key" tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
+                <td>{{ key + page_limit + 1 }}</td>
+                <template v-for="(header, hKey) in headers" :key="hKey">
+                    <template v-if="isObject(item[header.key])">
+                        <td :style="item[header.key].class">
+                            {{ item[header.key].value }}
+                        </td>
+                    </template>
+                    <template v-else>
+                        <td>
+                            <template v-if="header.key == 'fio'">
+                                <router-link :to="PUBLIC_PATH+'/user/timings-list/'+item['id']">{{ item[header.key] }}</router-link>
                             </template>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                            <template v-else>
+                                {{ item[header.key] }}
+                            </template>
+                        </td>
+                    </template>
+                </template>
+            </tr>
+            
+        </tbody>
+    </table>
 
     <!-- paginator -->
     <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">

@@ -1,7 +1,72 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Poppins:wght@300;400&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.leftbar {
+    background-color: #e6f9ff;
+}
+
+.left-avatar{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: thick double #32a1ce;
+}
+
+.center-items{
+    align-items: center;
+}
+
+.left-profile-info{
+    padding: 5px 10px 5px 15px;
+}
+
+.leftbar-item:hover{
+    background-color: #DCDCDC;
+    padding-left: 20px;
+    transition: all 0.5s ease-out;
+    
+}
+
+.leftbar-item>a{
+    text-decoration: none;
+    color: black;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+}
+.leftbar-item>a:hover{
+    color: #191970;
+}
+
+.padding-zero{
+    padding: 0;
+}
+
+.menu-logo{
+    margin: 10px 20px 10px 20px;
+}
+
+.menu-logo>a{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.primary-button {
+    color: #fff;
+    background-color: orange;
+    border-color: orange;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 15px;
+    transition: all 0.5s;
+}
+
+.primary-button:hover {
+    color: #fff;
+    background-color: rgb(255, 145, 0);
+    border-color: rgb(255, 145, 0);
+    text-decoration: none;
+    transition: all 0.5s;
+}

@@ -125,15 +125,15 @@ class User extends Authenticatable implements JWTSubject
      */
     public function passAuthenticate(array $data){
 
-        $all = $this::select('id', 'name', 'surname', 'lastname', 'pin_code')->get();
+        $userData = $this::select('id', 'name', 'surname', 'lastname', 'pin_code')
+            ->where('pin_code', $data['pin_code'])
+            ->first();
         
-        foreach($all as $a){
-            if(password_verify($data['pin_code'], $a['pin_code'])){
-                $uniqId = uniqid();
-                return $a->toArray() + ['uid'=>$uniqId];
-            }
+        if(!$userData){
+            return false;
         }
-        return False;
+        $uniqId = uniqid();
+        return $userData->toArray() + ['uid'=>$uniqId];
     }
 
     /**
@@ -163,7 +163,8 @@ class User extends Authenticatable implements JWTSubject
                 ],
                 'is_on_duty' => [
                     'key' => $user['is_on_duty'],
-                    'value' => trans('base.is_on_duty.'.(string)$user['is_on_duty'])
+                    'value' => trans('base.is_on_duty.'.(string)$user['is_on_duty']),
+                    'class' => $user['is_on_duty'] == 1 ? 'background-color: green; color: white' : 'background-color: red; color: white'
                 ],
             ];
         }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\checkPinUnique;
 
 class CreateUserRequest extends FormRequest
 {
@@ -41,6 +40,10 @@ class CreateUserRequest extends FormRequest
 
             'pin_code.confirmed' => 'Пин коды не совпадают.',
             'password.confirmed' => 'Пароли не совпадают.',
+
+            'iin.unique' => 'Данный ИИН уже занят.',
+            'email.unique' => 'Данный email уже занят.',
+            'pin_code.unique' => 'Данный пин код уже занят.',
         ];
     }
 
@@ -59,8 +62,8 @@ class CreateUserRequest extends FormRequest
             'roles_id' => 'integer|required|max:4',
             'positions_id' => 'integer',
             'email' => 'required|unique:user|email|min:6|max:255',
-            'pin_code' => ['required', 'confirmed', 'min:6', 'max:6', new checkPinUnique],
-            'password' => ['required', 'confirmed', 'min:6'],
+            'pin_code' => 'required|confirmed|unique:user|min:6|max:6',
+            'password' => 'required|confirmed|min:6'
         ];
     }
 }

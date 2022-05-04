@@ -1,137 +1,40 @@
 <template>
+    <!-- header -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <p>{{user_fio}}</p>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Экспорт
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" :href="EXPORT_URL">Excel</a></li>
+                    <li><a class="dropdown-item" :href="EXPORT_URL">PDF</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- component -->
-    <div class="sm:px-6 w-full">
-        <div class="px-4 md:px-10 py-4 md:py-7">
-            <div class="flex items-center justify-between">
-                <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">{{user_fio}}</p>
-                <div class="flex justify-center">
-                    <div class="dropdown relative">
-                    <button
-                        class="
-                        dropdown-toggle
-                        px-6
-                        py-2.5
-                        bg-blue-600
-                        text-white
-                        font-medium
-                        text-xs
-                        leading-tight
-                        uppercase
-                        rounded
-                        shadow-md
-                        hover:bg-blue-700 hover:shadow-lg
-                        focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-                        active:bg-blue-800 active:shadow-lg active:text-white
-                        transition
-                        duration-150
-                        ease-in-out
-                        flex
-                        items-center
-                        whitespace-nowrap
-                        "
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Экспорт
-                        <path
-                            fill="currentColor"
-                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                        ></path>
-                    </button>
-                    <ul
-                        class="
-                        dropdown-menu
-                        min-w-max
-                        absolute
-                        hidden
-                        bg-white
-                        text-base
-                        z-50
-                        float-left
-                        py-2
-                        list-none
-                        text-left
-                        rounded-lg
-                        shadow-lg
-                        mt-1
-                        hidden
-                        m-0
-                        bg-clip-padding
-                        border-none
-                        "
-                        aria-labelledby="dropdownMenuButton1"
-                    >
-                        <li>
-                            <a
-                                class="
-                                dropdown-item
-                                text-sm
-                                py-2
-                                px-4
-                                font-normal
-                                block
-                                w-full
-                                whitespace-nowrap
-                                bg-transparent
-                                text-gray-700
-                                hover:bg-gray-100
-                                "
-                                :href="EXPORT_URL"
-                                >Excel
-                            </a
-                        >
-                        </li>
-                        <li>
-                        <a
-                            class="
-                            dropdown-item
-                            text-sm
-                            py-2
-                            px-4
-                            font-normal
-                            block
-                            w-full
-                            whitespace-nowrap
-                            bg-transparent
-                            text-gray-700
-                            hover:bg-gray-100
-                            "
-                            :href="EXPORT_URL"
-                            >PDF</a
-                        >
-                        </li>
-                    </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
-            <div class="mt-7 overflow-x-auto">
-                <table class="w-full whitespace-nowrap">
-                    <thead>
-                        <tr tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                            <th class="uk-table-shrink">No</th>
-                            <th v-for="header in headers" v-bind:key="header.id" class="uk-table-shrink" :class="header.class">
-                                {{header.value}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, key) in body" v-bind:key="key" tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                            <td>{{ key + page_limit + 1 }}</td>
-                            <template v-for="(header, hKey) in headers" :key="hKey">
-                                <td>
-                                    {{ item[header.key] }}
-                                </td>
-                            </template>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr tabindex="0" class="border border-gray-100">
+                <th class="uk-table-shrink">No</th>
+                <th v-for="header in headers" v-bind:key="header.id" :class="header.class">
+                    {{header.value}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, key) in body" v-bind:key="key" tabindex="0" class="border border-gray-100">
+                <td>{{ key + page_limit + 1 }}</td>
+                <template v-for="(header, hKey) in headers" :key="hKey">
+                    <td>
+                        {{ item[header.key] }}
+                    </td>
+                </template>
+            </tr>
+        </tbody>
+    </table>
 
     <!-- paginator -->
     <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PassLogs;
 
 class Device extends Model
 {
@@ -35,7 +36,6 @@ class Device extends Model
      */
     public function pass_logs()
     {
-        return $this->hasMany('App\Models\PassLogs');
+        return $this->belongsTo(PassLogs::class);
     }
 }
-

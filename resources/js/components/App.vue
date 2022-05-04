@@ -6,11 +6,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div v-if="isLogged" class="col-3">
+                    <div v-if="isLogged" class="col-3 leftbar">
                         <LeftBar ></LeftBar>
                     </div>
                     <div :class=divClass>
-                        <router-view></router-view>
+                        <div class="container">
+                            <router-view></router-view>
+                        </div>
                     </div>
                 </div>
                 <FlashMessage position="right top" time="3000"  strategy="single"/>

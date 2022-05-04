@@ -1,34 +1,29 @@
 <template>
-    <div class="h-full shadow-md bg-white absolute" id="sidenavSecExample" style="width:25%">
-        <div v-if="isLogged" class="pt-4 pb-2 px-6">
-            <router-link :to="links.profileIndex.href">
-            <div class="flex items-center">
-                <div class="shrink-0">
-                <img :src="photo_url" class="rounded-full w-10" alt="Avatar">
-                </div>
-                <div class="grow ml-3">
-                <p class="text-sm font-semibold text-blue-600">{{ user_name }}</p>
-                </div>
+    <nav class="nav flex-column">
+        <div class="position-relative">
+            <div v-if="isLogged" class="left-profile-info leftbar-item">
+                <router-link :to="links.profileIndex.href">
+                    <div class="row center-items">
+                        <div class="col-2 center-items">
+                            <img class="left-avatar" :src="photo_url" alt="Avatar">
+                        </div>
+                        <div class="col-10 center-items">
+                            {{ user_name }}
+                        </div>
+                    </div>
+                </router-link>
             </div>
-            </router-link>
+            <div v-if="isLogged" class="leftbar-item">
+                <router-link class="nav-link" :to="links.usersList.href">{{ links.usersList.title }}</router-link>
+            </div>
+            <div v-if="isLogged" class="leftbar-item">
+                <router-link class="nav-link" :to="links.logsList.href">{{ links.logsList.title }}</router-link>
+            </div>
         </div>
-        <ul class="relative px-1">
-            <li v-if="isLogged" class="relative">
-                <router-link class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" :to="links.usersList.href"><span>{{ links.usersList.title }}</span></router-link>
-            </li>
-            <li v-if="isLogged" class="relative">
-                <router-link class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" :to="links.logsList.href"><span>{{ links.logsList.title }}</span></router-link>
-            </li>
-        </ul>
-        <div class="text-center bottom-0 absolute w-full">
-            <hr class="m-0">
-            <p class="py-2 text-sm text-gray-700">Mediana Services</p>
-        </div>
-    </div>
+    </nav>
 </template>
 
 <script>
-import axios from 'axios';
     export default {
         data() {
             return {

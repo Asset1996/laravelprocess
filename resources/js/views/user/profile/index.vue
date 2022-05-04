@@ -71,7 +71,7 @@
             <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                 <form @submit="formSubmit" enctype="multipart/form-data">
                     <input type="file" class="form-control" v-on:change="onChange">
-                    <button class="btn btn-primary btn-block">Загрузить</button>
+                    <button class="primary-button btn-block">Загрузить</button>
                 </form>
                 <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                     <button type="button" class="px-6
