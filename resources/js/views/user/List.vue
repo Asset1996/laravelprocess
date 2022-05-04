@@ -42,25 +42,16 @@
     </table>
 
     <!-- paginator -->
-    <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-        <div v-if="paginator.has_pages" class="flex justify-center">
-            <nav aria-label="Page navigation example">
-                <ul class="flex list-style-none">
-                    <li v-for="item in paginator.path_list" v-bind:key="item.key" class="page-item" v-bind:class="{ active: item.active }">
-                        <button v-if="item.url"
-                            class="page-link relative block py-1.5 px-3 rounded border-0 outline-none transition-all duration-300 rounded"
-                            v-bind:class="{ 'bg-blue-600 text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md': item.active }"
-                            @click.prevent="setParam('page', item.page)">{{item.label}}</button>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <paginator :paginator="paginator" @setPage="setParam"></paginator>
 </template>
 
 <script>
 import axios from 'axios'
+import paginator from '../../components/Paginator.vue'
 export default {
+    components: {
+        paginator
+    },
     data(){
         return {
             body: [],

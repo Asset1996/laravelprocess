@@ -37,40 +37,53 @@
                     </h2>
                     <div :id="'collapse'+item.user.id" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
-                                        <th scope="row">{{ sub_key + 1}}</th>
-                                        <td><span v-if="sub_item[1]">{{sub_item[1].created_at}}</span></td>
-                                        <td><span v-if="sub_item[1]">{{sub_item[1].device.location}}</span></td>
-                                        <td><span v-if="sub_item[1]">
-                                            <img 
-                                                data-bs-toggle="modal" data-bs-target="#imageModal"
-                                                type="button" 
-                                                class="uk-preserve-width" 
-                                                :src="MAIN_URL + sub_item[1].image_path" 
-                                                width="80" height="60" 
-                                                alt=""
-                                                @click="sendInfoToModal(sub_item[1].image_path)"
-                                            >
-                                        </span></td>
-
-                                        <td><span v-if="sub_item[0]">{{sub_item[0].created_at}}</span></td>
-                                        <td><span v-if="sub_item[0]">{{sub_item[0].device.location}}</span></td>
-                                        <td><span v-if="sub_item[0]">
-                                            <img 
-                                                data-bs-toggle="modal" data-bs-target="#imageModal"
-                                                type="button" 
-                                                class="uk-preserve-width" 
-                                                :src="MAIN_URL + sub_item[0].image_path" 
-                                                width="80" height="60" 
-                                                alt=""
-                                                @click="sendInfoToModal(sub_item[0].image_path)"
-                                            >
-                                        </span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr class="table-row" v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
+                                                <th scope="row">{{ sub_key + 1}}</th>
+                                                <td><span v-if="sub_item[1]">{{sub_item[1].created_at}}</span></td>
+                                                <td><span v-if="sub_item[1]">{{sub_item[1].device.location}}</span></td>
+                                                <td><span v-if="sub_item[1]">
+                                                    <img 
+                                                        data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                        type="button" 
+                                                        class="uk-preserve-width" 
+                                                        :src="MAIN_URL + sub_item[1].image_path" 
+                                                        width="80" height="60" 
+                                                        alt=""
+                                                        @click="sendInfoToModal(sub_item[1].image_path)"
+                                                    >
+                                                </span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr class="table-row" v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
+                                                <th scope="row">{{ sub_key + 1}}</th>
+                                                <td><span v-if="sub_item[0]">{{sub_item[0].created_at}}</span></td>
+                                                <td><span v-if="sub_item[0]">{{sub_item[0].device.location}}</span></td>
+                                                <td><span v-if="sub_item[0]">
+                                                    <img 
+                                                        data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                        type="button" 
+                                                        class="uk-preserve-width" 
+                                                        :src="MAIN_URL + sub_item[0].image_path" 
+                                                        width="80" height="60" 
+                                                        alt=""
+                                                        @click="sendInfoToModal(sub_item[0].image_path)"
+                                                    >
+                                                </span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

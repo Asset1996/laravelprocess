@@ -70,3 +70,15 @@
     text-decoration: none;
     transition: all 0.5s;
 }
+
+.table-row{
+    height: 77px;
+}
+
+.pagination{
+    align-items: center;
+    justify-content: center;
+}
+.page-item{
+    cursor: pointer;
+}
