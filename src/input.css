@@ -5,6 +5,14 @@
     background-color: #e6f9ff;
 }
 
+.profile-avatar{
+    height: 170px;
+    width: 170px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: thick double #32a1ce;
+}
+
 .left-avatar{
     height: 50px;
     width: 50px;

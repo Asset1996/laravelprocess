@@ -9,8 +9,7 @@
                     <div class="d-flex flex-column align-items-center text-center">
                         <img 
                             :src="photo_url" alt="Admin" 
-                            class="rounded-circle" 
-                            width="150"
+                            class="profile-avatar" 
                         >
                         <div class="mt-3">
                         <h4>{{fio}}</h4>
@@ -65,32 +64,18 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-        id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog relative w-auto pointer-events-none">
-            <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+    <div class="modal" tabindex="-1" id="imageModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-body">
                 <form @submit="formSubmit" enctype="multipart/form-data">
                     <input type="file" class="form-control" v-on:change="onChange">
                     <button class="primary-button btn-block">Загрузить</button>
                 </form>
-                <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                    <button type="button" class="px-6
-                    py-2.5
-                    bg-purple-600
-                    text-white
-                    font-medium
-                    text-xs
-                    leading-tight
-                    uppercase
-                    rounded
-                    shadow-md
-                    hover:bg-purple-700 hover:shadow-lg
-                    focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0
-                    active:bg-purple-800 active:shadow-lg
-                    transition
-                    duration-150
-                    ease-in-out" data-bs-dismiss="modal">Закрыть</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
             </div>
         </div>
     </div>
