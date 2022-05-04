@@ -21,6 +21,7 @@
                 <th scope="col">Время входа</th>
                 <th scope="col">Локация входа</th>
                 <th scope="col">Снимок входа</th>
+                <th scope="col">#</th>
                 <th scope="col">Время выхода</th>
                 <th scope="col">Локация выхода</th>
                 <th scope="col">Снимок выхода</th>
