@@ -70,7 +70,12 @@
                                         <tbody>
                                             <tr class="table-row" v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
                                                 <td><span v-if="sub_item[0]">{{sub_item[0].created_at}}</span></td>
-                                                <td><span v-if="sub_item[0]">{{sub_item[0].device.location}}</span></td>
+                                                <td>
+                                                    <span v-if="sub_item[0]">
+                                                        <template v-if="sub_item[0].device != null">{{sub_item[0].device.location}}</template>
+                                                        <template v-else>Неизвестно</template>
+                                                    </span>
+                                                </td>
                                                 <td><span v-if="sub_item[0]">
                                                     <img 
                                                         data-bs-toggle="modal" data-bs-target="#imageModal"
