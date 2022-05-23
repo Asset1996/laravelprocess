@@ -65,6 +65,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+
                                 <div class="col-6">
                                     <table class="table table-hover">
                                         <tbody>
