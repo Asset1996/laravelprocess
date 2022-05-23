@@ -21,7 +21,6 @@
                 <th scope="col">Время входа</th>
                 <th scope="col">Локация входа</th>
                 <th scope="col">Снимок входа</th>
-                <th scope="col">#</th>
                 <th scope="col">Время выхода</th>
                 <th scope="col">Локация выхода</th>
                 <th scope="col">Снимок выхода</th>
@@ -45,7 +44,12 @@
                                             <tr class="table-row" v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
                                                 <th scope="row">{{ sub_key + 1}}</th>
                                                 <td><span v-if="sub_item[1]">{{sub_item[1].created_at}}</span></td>
-                                                <td><span v-if="sub_item[1]">{{sub_item[1].device.location}}</span></td>
+                                                <td>
+                                                    <span v-if="sub_item[1]">
+                                                        <template v-if="sub_item[1].device != null">{{sub_item[1].device.location}}</template>
+                                                        <template v-else>Неизвестно</template>
+                                                    </span>
+                                                </td>
                                                 <td><span v-if="sub_item[1]">
                                                     <img 
                                                         data-bs-toggle="modal" data-bs-target="#imageModal"
@@ -65,7 +69,6 @@
                                     <table class="table table-hover">
                                         <tbody>
                                             <tr class="table-row" v-for="(sub_item, sub_key) in item.couples" v-bind:key="sub_key">
-                                                <th scope="row">{{ sub_key + 1}}</th>
                                                 <td><span v-if="sub_item[0]">{{sub_item[0].created_at}}</span></td>
                                                 <td><span v-if="sub_item[0]">{{sub_item[0].device.location}}</span></td>
                                                 <td><span v-if="sub_item[0]">
@@ -130,8 +133,7 @@
             }
         },
         mounted() {
-            this.logsList(),
-            this.getUsersFioAndIdList()
+            this.logsList()
         },
         methods: {
             logsList(url=null) {
@@ -160,33 +162,10 @@
             sendInfoToModal(image) {
                 this.image = image;
             },
-            getUsersFioAndIdList(url=null){
-                let request_headers = {}
-                request_headers['Accept'] = 'application/json'
-                if(this.$store.state.token !== null) {
-                    request_headers['Authorization'] = `Bearer ${this.$store.state.token}`
-                }
-                url = this.API_URL + '/user/fio-and-id-list'
-
-                axios
-                .get(url, {headers: request_headers})
-                .then(response => {
-                    if(response.data.result){
-                        this.userList = response.data.data;
-                    }
-                })
-            },
             setParam(key, val){
                 this.params[key] = val;
                 this.logsList()
             },
-            // filteredList(search){
-            //     console.log(search)
-            //     let filtered = this.body.filter((b) => {
-            //         return b.user.fio.toLowerCase().includes(search.toLowerCase())
-            //     })
-            //     console.log(filtered)
-            // }
         },
         
     }
